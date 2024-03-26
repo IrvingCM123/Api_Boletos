@@ -17,6 +17,10 @@ import { MessagesModule } from './messages/messages.module';
       database: 'db_crud',
       autoLoadEntities: true,
       synchronize: true,
+      extra: {
+        ssl: true,
+        sslmode: 'require',
+      },
     }), 
     UsuarioModule,
     CuentasModule,
