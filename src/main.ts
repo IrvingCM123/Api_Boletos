@@ -17,6 +17,6 @@ async function bootstrap() {
 
   let ruta = '172.26.10.0'
 
-  await app.listen(80);
+  await app.listen(3000);
 }
 bootstrap();
