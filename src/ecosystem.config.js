@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'boletos_api',
-      script: 'dist/main.js',
+      script: '../dist/main.js',
       instances: 'max',
       autorestart: true,
       watch: false,
