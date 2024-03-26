@@ -15,6 +15,8 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(3000);
+  let ruta = '172.26.10.0'
+
+  await app.listen(80, ruta);
 }
 bootstrap();
