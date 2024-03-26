@@ -10,10 +10,10 @@ import { MessagesModule } from './messages/messages.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'ep-mute-grass-a5yv0kt7-pooler.us-east-2.aws.neon.tech',
       port: 5432,
-      username: 'postgres',
-      password: 'IrvingConde123',
+      username: 'neondb_owner',
+      password: 'I8l0nUFHumXy',
       database: 'db_crud',
       autoLoadEntities: true,
       synchronize: true,
