@@ -22,4 +22,8 @@ export class CreateDetalleVehiculoDto {
     @IsNotEmpty()
     TipoVehiculo: CatalogoVehiculo;
 
+    @IsNumber()
+    @IsNotEmpty()
+    capacidad_asientos: number;
+
 }

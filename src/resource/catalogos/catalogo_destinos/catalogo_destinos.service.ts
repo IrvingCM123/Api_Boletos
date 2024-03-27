@@ -1,60 +1,60 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCatalogoVehiculoDto } from './dto/create-catalogo_vehiculo.dto';
-import { UpdateCatalogoVehiculoDto } from './dto/update-catalogo_vehiculo.dto';
+import { CreateCatalogoDestinoDto } from './dto/create-catalogo_destino.dto';
+import { UpdateCatalogoDestinoDto } from './dto/update-catalogo_destino.dto';
+
 
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CatalogoVehiculo } from './entities/catalogo_vehiculo.entity';
+import { CatalogoDestino } from './entities/catalogo_destino.entity';
+
 import { validateOwnershipAdmin } from 'src/Guard/validateOwnerShip.guard';
 import { Errores_Catalogos } from 'src/common/helpers/Errores.service';
 import { Exito_Catalogos } from 'src/common/helpers/Confirmaciones.service';
 import { User_Interface } from 'src/common/interfaces/user.interface';
 
+
 @Injectable()
-export class CatalogoVehiculosService {
+export class CatalogoDestinosService {
+
   constructor(
-    @InjectRepository(CatalogoVehiculo)
-    private catalogoVehiculoRepository: Repository<CatalogoVehiculo>,
+    @InjectRepository(CatalogoDestino)
+    private catalogoDestinoRepository: Repository<CatalogoDestino>,
   ) {}
 
-  create(
-    createCatalogoVehiculoDto: CreateCatalogoVehiculoDto,
-    user: User_Interface,
-  ) {
+  create(createCatalogoDestinoDto: CreateCatalogoDestinoDto, user: User_Interface) {
     validateOwnershipAdmin(user);
 
-    let buscar = this.catalogoVehiculoRepository.findOne({
-      where: { TipoVehiculo: createCatalogoVehiculoDto.TipoVehiculo },
+    let buscar = this.catalogoDestinoRepository.findOne({
+      where: { Terminal: createCatalogoDestinoDto.Terminal },
     });
 
     if (buscar) {
       return Errores_Catalogos.CATALOG_ALREADY_EXISTS;
     } else {
-      this.catalogoVehiculoRepository.save(createCatalogoVehiculoDto);
+      this.catalogoDestinoRepository.save(createCatalogoDestinoDto);
       return Exito_Catalogos.CATALOGO_CREADO;
     }
   }
 
-  findAll( user: User_Interface) {
-    validateOwnershipAdmin(user);
-    return this.catalogoVehiculoRepository.find();
+  findAll() {
+    return this.catalogoDestinoRepository.find();
   }
 
   findOne(id: number, user: User_Interface) {
     validateOwnershipAdmin(user);
 
     try {
-      return this.catalogoVehiculoRepository.findOneById(id);
+      return this.catalogoDestinoRepository.findOneById(id);
     } catch (error) {
       return Errores_Catalogos.CATALOG_NOT_FOUND;
     }
   }
 
-  update(id: number, updateCatalogoVehiculoDto: UpdateCatalogoVehiculoDto, user: User_Interface) {
+  update(id: number, updateCatalogoDestinoDto: UpdateCatalogoDestinoDto, user: User_Interface) {
     validateOwnershipAdmin(user);
 
     try {
-      this.catalogoVehiculoRepository.update(id, updateCatalogoVehiculoDto);
+      this.catalogoDestinoRepository.update(id, updateCatalogoDestinoDto);
       return Exito_Catalogos.CATALOGO_ACTUALIZADO;
     } catch (error) {
       return Errores_Catalogos.CATALOG_NOT_FOUND;
@@ -65,7 +65,7 @@ export class CatalogoVehiculosService {
     validateOwnershipAdmin(user);
 
     try {
-      this.catalogoVehiculoRepository.delete(id);
+      this.catalogoDestinoRepository.delete(id);
       return Exito_Catalogos.CATALOGO_ELIMINADO;
     } catch (error) {
       return Errores_Catalogos.CATALOG_NOT_FOUND;

@@ -18,5 +18,8 @@ export class DetalleVehiculo {
     
         @ManyToMany(() => CatalogoVehiculo)
         @JoinColumn({ name: 'id_catalogo_vehiculo' })
-        TipoVehiculo: CatalogoVehiculo;
+        id_catalogo_vehiculo: CatalogoVehiculo;
+
+        @Column({ nullable: false })
+        capacidad_asientos: number;
 }

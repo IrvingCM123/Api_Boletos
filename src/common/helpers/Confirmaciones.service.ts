@@ -42,3 +42,21 @@ export enum Exito_Vehiculos {
     VEHICULO_ACTUALIZADO = 'Vehiculo actualizado con éxito',
     VEHICULO_ELIMINADO = 'Vehiculo eliminado con éxito',
 }
+
+export enum Exito_Detalles_Viaje {
+    DETALLE_VIAJE_CREADO = 'Detalle de viaje creado con éxito',
+    DETALLE_VIAJE_ACTUALIZADO = 'Detalle de viaje actualizado con éxito',
+    DETALLE_VIAJE_ELIMINADO = 'Detalle de viaje eliminado con éxito',
+}
+
+export enum Exito_Conductores {
+    CONDUCTOR_CREADO = 'Conductor creado con éxito',
+    CONDUCTOR_ACTUALIZADO = 'Conductor actualizado con éxito',
+    CONDUCTOR_ELIMINADO = 'Conductor eliminado con éxito',
+}
+
+export enum Exito_Viaje {
+    VIAJE_CREADO = 'Viaje creado con éxito',
+    VIAJE_ACTUALIZADO = 'Viaje actualizado con éxito',
+    VIAJE_ELIMINADO = 'Viaje eliminado con éxito',
+}

@@ -20,4 +20,7 @@ export class UpdateDetalleVehiculoDto extends PartialType(CreateDetalleVehiculoD
 
     @IsString()
     TipoVehiculo: CatalogoVehiculo;
+
+    @IsString()
+    capacidad_asientos?: number;
 }

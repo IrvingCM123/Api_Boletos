@@ -20,8 +20,8 @@ export class CatalogoVehiculosController {
   }
 
   @Get()
-  findAll() {
-    return this.catalogoVehiculosService.findAll();
+  findAll( user: User_Interface) {
+    return this.catalogoVehiculosService.findAll(user);
   }
 
   @Get(':id')

@@ -8,7 +8,7 @@ import { User_Interface } from 'src/common/interfaces/user.interface';
 import { CatalogoVehiculo } from 'src/resource/catalogos/catalogo_vehiculos/entities/catalogo_vehiculo.entity';
 
 import { DetalleVehiculo } from './entities/detalle_vehiculo.entity';
-import { validateOwnership } from 'src/Guard/validateOwnerShip.guard';
+import { validateOwnershipAdmin } from 'src/Guard/validateOwnerShip.guard';
 
 import { Errores_Catalogos, Errores_Vehiculos } from 'src/common/helpers/Errores.service';
 import { Exito_Vehiculos } from 'src/common/helpers/Confirmaciones.service';
@@ -26,7 +26,7 @@ export class DetalleVehiculosService {
     createDetalleVehiculoDto: CreateDetalleVehiculoDto,
     user: User_Interface,
   ) {
-    validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     let buscar = this.detalleVehiculoRepository.findOne({
       where: { numero_placas: createDetalleVehiculoDto.numero_placas },
@@ -50,12 +50,13 @@ export class DetalleVehiculosService {
     }
   }
 
-  findAll() {
+  findAll( user: User_Interface) {
+    validateOwnershipAdmin(user);
     return this.detalleVehiculoRepository.find();
   }
 
   findOne(id: number, user: User_Interface) {
-    validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     try {
       return this.detalleVehiculoRepository.findOneById(id);
@@ -69,7 +70,7 @@ export class DetalleVehiculosService {
     updateDetalleVehiculoDto: UpdateDetalleVehiculoDto,
     user: User_Interface,
   ) {
-    validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     try {
       this.detalleVehiculoRepository.update(id, updateDetalleVehiculoDto);
@@ -80,7 +81,7 @@ export class DetalleVehiculosService {
   }
 
   remove(id: number, user: User_Interface) {
-    validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     try {
       this.detalleVehiculoRepository.delete(id);

@@ -82,3 +82,30 @@ export enum Errores_Vehiculos {
     VEHICLE_NOT_DELETED = 'Vehículo no eliminado',
     VEHICLE_ALREADY_EXISTS = 'Vehículo ya existe'
 }
+
+export enum Errores_Detalles_Viaje {
+    DETAIL_NOT_FOUND = 'Detalle no encontrado',
+    DETAIL_INVALID = 'Detalle inválido',
+    DETAIL_NOT_CREATED = 'Detalle no creado',
+    DETAIL_NOT_UPDATED = 'Detalle no actualizado',
+    DETAIL_NOT_DELETED = 'Detalle no eliminado',
+    DETAIL_ALREADY_EXISTS = 'Detalle ya existe'
+}
+
+export enum Errores_Conducores {
+    DRIVER_NOT_FOUND = 'Conductor no encontrado',
+    DRIVER_INVALID = 'Conductor inválido',
+    DRIVER_NOT_CREATED = 'Conductor no creado',
+    DRIVER_NOT_UPDATED = 'Conductor no actualizado',
+    DRIVER_NOT_DELETED = 'Conductor no eliminado',
+    DRIVER_ALREADY_EXISTS = 'Conductor ya existe'
+}
+
+export enum Errores_Viaje {
+    TRAVEL_NOT_FOUND = 'Viaje no encontrado',
+    TRAVEL_INVALID = 'Viaje inválido',
+    TRAVEL_NOT_CREATED = 'Viaje no creado',
+    TRAVEL_NOT_UPDATED = 'Viaje no actualizado',
+    TRAVEL_NOT_DELETED = 'Viaje no eliminado',
+    TRAVEL_ALREADY_EXISTS = 'Viaje ya existe'
+}

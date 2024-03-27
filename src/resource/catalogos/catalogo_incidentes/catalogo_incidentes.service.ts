@@ -12,7 +12,7 @@ import { Errores_Incidentes } from 'src/common/helpers/Errores.service';
 
 import { User_Interface } from 'src/common/interfaces/user.interface';
 import { Message_Interface } from 'src/common/interfaces/message.interface';
-import { validateOwnership } from 'src/Guard/validateOwnerShip.guard';
+import { validateOwnershipAdmin } from 'src/Guard/validateOwnerShip.guard';
 @Injectable()
 export class CatalogoIncidentesService {
   constructor(
@@ -24,7 +24,7 @@ export class CatalogoIncidentesService {
     createCatalogoIncidenteDto: CreateCatalogoIncidenteDto,
     user: User_Interface,
   ) {
-    validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     let buscar = this.findOneByTipo(createCatalogoIncidenteDto.Tipo_Incidente);
 
@@ -42,7 +42,7 @@ export class CatalogoIncidentesService {
   }
 
   findAll(user: User_Interface) {
-    validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     return this.catalogoIncidenteRepository.find();
   }
@@ -54,7 +54,7 @@ export class CatalogoIncidentesService {
   }
 
   findOne(id: number, user: User_Interface) {
-    validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     try {
       return this.catalogoIncidenteRepository.findOneById(id);
@@ -68,7 +68,7 @@ export class CatalogoIncidentesService {
     updateCatalogoIncidenteDto: UpdateCatalogoIncidenteDto,
     user: User_Interface,
   ) {
-    validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     try {
       return this.catalogoIncidenteRepository.update(
@@ -81,7 +81,7 @@ export class CatalogoIncidentesService {
   }
 
   remove(id: number, user: User_Interface) {
-    validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     try {
       return this.catalogoIncidenteRepository.delete(id);

@@ -20,8 +20,8 @@ export class DetalleVehiculosController {
   }
 
   @Get()
-  findAll() {
-    return this.detalleVehiculosService.findAll();
+  findAll( user: User_Interface) {
+    return this.detalleVehiculosService.findAll(user);
   }
 
   @Get(':id')
