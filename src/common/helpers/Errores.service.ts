@@ -35,14 +35,50 @@ export enum Errores_Cuentas {
         // Errores de cuentas
         CUENTA_NOT_FOUND = 'Cuenta no encontrada',
         CUENTA_INVALID = 'Cuenta inválida',
-        CUENTA_DUPLICATED = 'Cuenta duplicada',
         CUENTA_NOT_CREATED = 'Cuenta no creada',
         CUENTA_NOT_UPDATED = 'Cuenta no actualizada',
         CUENTA_NOT_DELETED = 'Cuenta no eliminada',
+        CUENTA_ALREADY_EXISTS = 'Cuenta ya existe',
 }
 
 export enum Errores_Messages {
     FIREBASE_CONFIG_LOAD = 'Error al cargar configuración de Firebase',
     GETTING_ACCESS_TOKEN = 'Error al obtener el token de acceso',
     MESSAGE_SEND_ERROR = 'Error al envíar el mensaje'
+}
+
+export enum Errores_Incidentes {
+    EVENT_NOT_FOUND = 'Evento no encontrado',
+    EVENT_INVALID = 'Evento inválido',
+    EVENT_NOT_CREATED = 'Evento no creado',
+    EVENT_NOT_UPDATED = 'Evento no actualizado',
+    EVENT_NOT_DELETED = 'Evento no eliminado',
+    EVENT_ALREADY_EXISTS = 'Evento ya existe'
+}
+
+export enum Errores_Eventos {
+    INCIDENT_NOT_FOUND = 'Incidente no encontrado',
+    INCIDENT_INVALID = 'Incidente inválido',
+    INCIDENT_NOT_CREATED = 'Incidente no creado',
+    INCIDENT_NOT_UPDATED = 'Incidente no actualizado',
+    INCIDENT_NOT_DELETED = 'Incidente no eliminado',
+    INCIDENT_ALREADY_EXISTS = 'Incidente ya existe'
+}
+
+export enum Errores_Catalogos {
+    CATALOG_NOT_FOUND = 'Catálogo no encontrado',
+    CATALOG_INVALID = 'Catálogo inválido',
+    CATALOG_NOT_CREATED = 'Catálogo no creado',
+    CATALOG_NOT_UPDATED = 'Catálogo no actualizado',
+    CATALOG_NOT_DELETED = 'Catálogo no eliminado',
+    CATALOG_ALREADY_EXISTS = 'Catálogo ya existe'
+}
+
+export enum Errores_Vehiculos {
+    VEHICLE_NOT_FOUND = 'Vehículo no encontrado',
+    VEHICLE_INVALID = 'Vehículo inválido',
+    VEHICLE_NOT_CREATED = 'Vehículo no creado',
+    VEHICLE_NOT_UPDATED = 'Vehículo no actualizado',
+    VEHICLE_NOT_DELETED = 'Vehículo no eliminado',
+    VEHICLE_ALREADY_EXISTS = 'Vehículo ya existe'
 }

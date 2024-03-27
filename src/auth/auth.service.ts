@@ -36,7 +36,7 @@ export class AuthService {
     ) { }
 
     async register(registroDTO: RegisterDto) {
-        const { email, password, name, lastname, phone, address } = registroDTO;
+        const { email, password, name, lastname, phone, address, token_notificacion } = registroDTO;
 
         const date_created = new Date();
 
@@ -58,6 +58,7 @@ export class AuthService {
                 lastname,
                 phone,
                 address,
+                token_notificacion,
             });
 
             await this.cuentasService.create({

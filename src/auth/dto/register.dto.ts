@@ -38,4 +38,7 @@ export class RegisterDto {
 
     @IsString()
     address: string;
+
+    @IsString()
+    token_notificacion?: string;
 }

@@ -25,7 +25,16 @@ export class CuentasService {
   ) {}
 
   create(createCuentaDto: CreateCuentaDto) {
-    return this.cuentaRepository.save(createCuentaDto);
+    let buscar_cuenta = this.cuentaRepository.findOne({
+      where: { email: createCuentaDto.email },
+    });
+
+    if (buscar_cuenta) {
+      return Errores_Cuentas.CUENTA_ALREADY_EXISTS;
+    } else {
+      this.cuentaRepository.save(createCuentaDto);
+      return Exito_Cuentas.CUENTA_CREADA;
+    }
   }
 
   findAll() {
@@ -77,7 +86,11 @@ export class CuentasService {
   }
 
   findOne(id: number) {
-    return this.cuentaRepository.findOneById(id);
+    try {
+      return this.cuentaRepository.findOneById(id);
+    } catch (error) {
+      return Errores_Cuentas.CUENTA_NOT_FOUND;
+    }
   }
 
   update(id: number, updateCuentaDto: UpdateCuentaDto) {

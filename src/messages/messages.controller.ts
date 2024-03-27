@@ -8,7 +8,7 @@ import { User_Interface } from 'src/common/interfaces/user.interface';
 import { ActiveUser } from 'src/common/decorators/user.decorator';
 import { Message_Interface } from 'src/common/interfaces/message.interface';
 
-@Auth(Rol.USER)
+@Auth(Rol.ADMIN)
 @Controller('messages')
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}

@@ -6,4 +6,4 @@ export interface Message_Interface {
     Imagen?: string | null;
     Descripcion: string;
     Titulo: string;
-}
+} 

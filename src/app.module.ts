@@ -5,6 +5,8 @@ import { AuthModule } from './auth/auth.module';
 import { CuentasModule } from './resource/cuentas/cuentas.module';
 import { CatalogoCategoriasModule } from './resource/catalogo_categorias/catalogo_categorias.module';
 import { MessagesModule } from './messages/messages.module';
+import { EventosAlertsModule } from './eventos_alerts/eventos_alerts.module';
+import { EventModule } from './event/event.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { MessagesModule } from './messages/messages.module';
     AuthModule,
     CatalogoCategoriasModule,
     MessagesModule,
+    EventosAlertsModule,
+    EventModule,
   ],
   controllers: [],
   providers: [],

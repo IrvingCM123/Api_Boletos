@@ -17,4 +17,7 @@ export class CreateUsuarioDto {
 
     @IsString()
     address: string;
+
+    @IsString()
+    token_notificacion?: string;
 }

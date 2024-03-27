@@ -23,4 +23,7 @@ export class Usuario {
     @Column({ type: 'enum', default: Rol.USER, enum: Rol })
     rol: Rol;
 
+    @Column({ nullable: true })
+    token_notificacion: string;
+
 }
