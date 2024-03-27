@@ -11,7 +11,7 @@ import { CatalogoCategoriasModule } from './resource/catalogos/catalogo_categori
 import { CatalogoIncidentesModule } from './resource/catalogos/catalogo_incidentes/catalogo_incidentes.module';
 import { CatalogoVehiculosModule } from './resource/catalogos/catalogo_vehiculos/catalogo_vehiculos.module';
 import { DetalleVehiculosModule } from './resource/transportes/detalle_vehiculos/detalle_vehiculos.module';
-import { DetalleViajeModule } from './resource/detalle_viaje/detalle_viaje.module';
+import { DetalleViajeModule } from './resource/viaje/detalle_viaje/detalle_viaje.module';
 import { ConductoresModule } from './resource/conductores/conductores.module';
 import { ViajeModule } from './resource/viaje/viaje/viaje.module';
 
@@ -30,7 +30,7 @@ import { ViajeModule } from './resource/viaje/viaje/viaje.module';
         ssl: true,
         sslmode: 'require',
       },
-    }), 
+    }),
     UsuarioModule,
     CuentasModule,
     AuthModule,
@@ -44,9 +44,6 @@ import { ViajeModule } from './resource/viaje/viaje/viaje.module';
     DetalleViajeModule,
     ConductoresModule,
     ViajeModule,
-    
-
-
   ],
   controllers: [],
   providers: [],

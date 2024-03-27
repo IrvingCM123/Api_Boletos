@@ -6,7 +6,7 @@ import { User_Interface } from 'src/common/interfaces/user.interface';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { validateOwnership } from 'src/Guard/validateOwnerShip.guard';
+import { validateOwnershipAdmin } from 'src/Guard/validateOwnerShip.guard';
 import { Event } from './entities/event.entity';
 import { Errores_Incidentes } from 'src/common/helpers/Errores.service';
 
@@ -14,36 +14,32 @@ import { MessagesService } from 'src/messages/messages.service';
 
 @Injectable()
 export class EventService {
-
   constructor(
     @InjectRepository(Event)
     private eventRepository: Repository<Event>,
-    private messagesService: MessagesService
+    private messagesService: MessagesService,
   ) {}
 
   create(createEventDto: CreateEventDto, user: User_Interface) {
-    validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     try {
       //const event = this.eventRepository.create(createEventDto);
       //this.eventRepository.save(event);
-      this.messagesService.sendNotification(
-        user,
-        ['token'],
-        createEventDto
-      )
-      return 
+      this.messagesService.sendNotification(user, ['token'], createEventDto);
+      return;
     } catch (error) {
       throw new Error(Errores_Incidentes.EVENT_NOT_CREATED);
     }
   }
 
-  findAll() {
+  findAll(user: User_Interface) {
+    validateOwnershipAdmin(user);
     return this.eventRepository.find();
   }
 
   findOne(id: number, user: User_Interface) {
-    validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     try {
       return this.eventRepository.findOneById(id);
@@ -53,7 +49,7 @@ export class EventService {
   }
 
   update(id: number, updateEventDto: UpdateEventDto, user: User_Interface) {
-    validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     try {
       return this.eventRepository.update(id, updateEventDto);
@@ -63,7 +59,7 @@ export class EventService {
   }
 
   remove(id: number, user: User_Interface) {
-    validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     try {
       return this.eventRepository.delete(id);

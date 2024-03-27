@@ -28,8 +28,8 @@ export class EventController {
   }
 
   @Get()
-  findAll() {
-    return this.eventService.findAll();
+  findAll( @ActiveUser() user: User_Interface) {
+    return this.eventService.findAll(user);
   }
 
   @Get(':id')
