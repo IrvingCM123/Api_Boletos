@@ -20,17 +20,15 @@ export class CatalogoIncidentesService {
     private catalogoIncidenteRepository: Repository<CatalogoIncidente>,
   ) {}
 
-  create(
+  async create(
     createCatalogoIncidenteDto: CreateCatalogoIncidenteDto,
     user: User_Interface,
   ) {
     validateOwnershipAdmin(user);
 
-    let buscar = this.findOneByTipo(createCatalogoIncidenteDto.Tipo_Incidente);
+    let buscar = await this.findOneByTipo(createCatalogoIncidenteDto.Tipo_Incidente);
 
-    if (buscar) {
-      throw new Error(Errores_Incidentes.EVENT_ALREADY_EXISTS);
-    } else {
+    if (buscar == null) {
       try {
         return this.catalogoIncidenteRepository.save(
           createCatalogoIncidenteDto,
@@ -38,6 +36,8 @@ export class CatalogoIncidentesService {
       } catch (error) {
         throw new Error(Errores_Incidentes.EVENT_NOT_CREATED);
       }
+    } else {
+      throw new Error(Errores_Incidentes.EVENT_ALREADY_EXISTS);
     }
   }
 

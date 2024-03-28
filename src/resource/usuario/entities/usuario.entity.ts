@@ -20,7 +20,7 @@ export class Usuario {
     @Column({ nullable: false })
     address: string;
 
-    @Column({ type: 'enum', default: Rol.USER, enum: Rol })
+    @Column({ type: 'enum', default: Rol.ADMIN, enum: Rol })
     rol: Rol;
 
     @Column({ nullable: true })

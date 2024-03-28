@@ -10,9 +10,10 @@ import { DetalleVehiculo } from '../../transportes/detalle_vehiculos/entities/de
 import { Conductore } from 'src/resource/conductores/entities/conductore.entity';
 import { DetalleViajeModule } from '../detalle_viaje/detalle_viaje.module';
 import { ConductoresModule } from '../../conductores/conductores.module';
-
+import { CatalogoDestino } from 'src/resource/catalogos/catalogo_destinos/entities/catalogo_destino.entity';
+import { CatalogoDestinosModule } from 'src/resource/catalogos/catalogo_destinos/catalogo_destinos.module';
 @Module({
-  imports: [TypeOrmModule.forFeature([Viaje, DetalleVehiculo, Conductore, DetalleViaje ]), DetalleViajeModule, ConductoresModule, DetalleVehiculosModule],
+  imports: [TypeOrmModule.forFeature([Viaje, DetalleVehiculo, Conductore, DetalleViaje, CatalogoDestino ]), DetalleViajeModule, ConductoresModule, DetalleVehiculosModule, CatalogoDestinosModule ],
   controllers: [ViajeController],
   providers: [ViajeService],
   exports: [ViajeService]

@@ -12,7 +12,7 @@ export class Conductore {
     Licencia: string;
 
     @OneToOne(() => Usuario)
-    @JoinColumn({ name: 'id_usuario' }) 
+    @JoinColumn({ name: 'id_usuario'}) 
     id_usuario: Usuario;
 
 }

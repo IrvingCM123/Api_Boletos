@@ -17,21 +17,21 @@ export class CatalogoVehiculosService {
     private catalogoVehiculoRepository: Repository<CatalogoVehiculo>,
   ) {}
 
-  create(
+  async create(
     createCatalogoVehiculoDto: CreateCatalogoVehiculoDto,
     user: User_Interface,
   ) {
     validateOwnershipAdmin(user);
 
-    let buscar = this.catalogoVehiculoRepository.findOne({
+    let buscar = await this.catalogoVehiculoRepository.findOne({
       where: { TipoVehiculo: createCatalogoVehiculoDto.TipoVehiculo },
     });
 
-    if (buscar) {
-      return Errores_Catalogos.CATALOG_ALREADY_EXISTS;
-    } else {
+    if (buscar == null) {
       this.catalogoVehiculoRepository.save(createCatalogoVehiculoDto);
       return Exito_Catalogos.CATALOGO_CREADO;
+    } else {
+      return Errores_Catalogos.CATALOG_ALREADY_EXISTS;
     }
   }
 

@@ -4,11 +4,10 @@ import { UpdateConductoreDto } from './dto/update-conductore.dto';
 
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-
-import { Conductore } from './entities/conductore.entity';
-
 import { validateOwnershipAdmin } from 'src/Guard/validateOwnerShip.guard';
 import { User_Interface } from 'src/common/interfaces/user.interface';
+
+import { Conductore } from './entities/conductore.entity';
 
 import { Errores_Conducores, Errores_USUARIO, Errores_Cuentas } from 'src/common/helpers/Errores.service';
 import { Exito_Conductores } from 'src/common/helpers/Confirmaciones.service';
@@ -28,25 +27,42 @@ export class ConductoresService {
     private cuentaRepository: Repository<Cuenta>
   ) {}
 
-  create(createConductoreDto: CreateConductoreDto, user: User_Interface) {
+  async create(createConductoreDto: CreateConductoreDto, user: User_Interface) {
     validateOwnershipAdmin(user);
 
-    let buscar_email :any = this.cuentaRepository.findOne({
+    let buscar_conductor :any = await this.conductoreRepository.findOne({
+      where: { Licencia: createConductoreDto.Licencia },
+    });
+
+    if (buscar_conductor != null) {
+      return Errores_Conducores.DRIVER_ALREADY_EXISTS;
+    }
+
+    let buscar_email :any = await this.cuentaRepository.findOne({
       where: { email: createConductoreDto.email },
     });
 
-    if (!buscar_email) {
+    if (buscar_email == null) {
       return Errores_Cuentas.CUENTA_NOT_FOUND;
     }
 
-    let buscar_usuario = this.usuarioRepository.findOne({
-      where: { id_usuario: buscar_email.id_usuario },
-    });
+    let email = buscar_email.email;
 
-    if (!buscar_usuario) {
+    let buscar_cuenta = await this.cuentaRepository
+    .createQueryBuilder('cuenta')
+    .leftJoinAndSelect('cuenta.id_usuario', 'usuario')
+    .where('cuenta.email = :email', { email })
+    .getOne();
+
+    let conductor: any = {
+      Licencia: createConductoreDto.Licencia,
+      id_usuario: buscar_cuenta.id_usuario.id_usuario,
+    }
+
+    if (buscar_cuenta.id_usuario == null) {
       return Errores_USUARIO.USUARIO_NOT_FOUND;
     } else {
-      this.conductoreRepository.save(createConductoreDto);
+      this.conductoreRepository.save(conductor);
       return Exito_Conductores.CONDUCTOR_CREADO;
     }
   }

@@ -9,6 +9,7 @@ import { CatalogoDestinosModule } from 'src/resource/catalogos/catalogo_destinos
 @Module({
   imports : [TypeOrmModule.forFeature([DetalleViaje]), CatalogoDestinosModule],
   controllers: [DetalleViajeController],
-  providers: [DetalleViajeService]
+  providers: [DetalleViajeService],
+  exports: [DetalleViajeService]
 })
 export class DetalleViajeModule {}

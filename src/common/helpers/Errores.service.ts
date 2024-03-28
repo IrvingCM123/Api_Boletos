@@ -107,5 +107,15 @@ export enum Errores_Viaje {
     TRAVEL_NOT_CREATED = 'Viaje no creado',
     TRAVEL_NOT_UPDATED = 'Viaje no actualizado',
     TRAVEL_NOT_DELETED = 'Viaje no eliminado',
-    TRAVEL_ALREADY_EXISTS = 'Viaje ya existe'
+    TRAVEL_ALREADY_EXISTS = 'Viaje ya existe',
+}
+
+export enum Errores_Destinos {
+    DESTINOS_NOT_FOUND = 'Destino no encontrado',
+    DESTINOS_INVALID = 'Destino inválido',
+    DESTINOS_NOT_CREATED = 'Destino no creado',
+    DESTINOS_NOT_UPDATED = 'Destino',
+    DESTINOS_NOT_DELETED = 'Destino',
+    DESTINOS_ALREADY_EXISTS = 'Destino',
+    DESTINOS_SAME = 'Los destinos no pueden ser iguales',
 }

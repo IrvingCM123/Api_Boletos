@@ -22,31 +22,31 @@ export class DetalleVehiculosService {
     private catalogoVehiculoRepository: Repository<CatalogoVehiculo>,
   ) {}
 
-  create(
+  async create(
     createDetalleVehiculoDto: CreateDetalleVehiculoDto,
     user: User_Interface,
   ) {
     validateOwnershipAdmin(user);
 
-    let buscar = this.detalleVehiculoRepository.findOne({
+    let buscar = await this.detalleVehiculoRepository.findOne({
       where: { numero_placas: createDetalleVehiculoDto.numero_placas },
     });
 
     let tipo = createDetalleVehiculoDto.TipoVehiculo.toString();
 
-    let buscar_tipo = this.catalogoVehiculoRepository.findOne({
+    let buscar_tipo = await this.catalogoVehiculoRepository.findOne({
       where: { TipoVehiculo: tipo },
     });
 
-    if (!buscar_tipo) {
+    if (buscar_tipo == null) {
       return Errores_Catalogos.CATALOG_NOT_FOUND;
     }
 
-    if (buscar) {
-      return Errores_Vehiculos.VEHICLE_ALREADY_EXISTS;
-    } else {
+    if (buscar == null) {
       this.detalleVehiculoRepository.save(createDetalleVehiculoDto);
       return Exito_Vehiculos.VEHICULO_CREADO;
+    } else {
+      return Errores_Vehiculos.VEHICLE_ALREADY_EXISTS;
     }
   }
 

@@ -31,12 +31,18 @@ export class RoleGuard implements CanActivate {
             throw new UnauthorizedException(Errores_Roles.ROLE_NOT_FOUND);
         }
 
-        for (const rol in Rol) {
-            if (user.role === Rol[rol]) {
-                return true; // Si encontramos una coincidencia, devolvemos true
+        let validar = false;
+        const valoresEnum = Object.values(Rol);
+        for (let valor of valoresEnum) {
+            if (user.role === valor) {
+                return validar = true;
             } else {
-                throw new UnauthorizedException(Errores_Roles.ROLE_INVALID)
+                validar = false;
             }
+        }
+
+        if (validar === false) {
+            throw new UnauthorizedException(Errores_Roles.ROLE_INVALID)
         }
 
         return roles === user.role; // Retorna true si los roles requeridos coinciden con el rol del usuario

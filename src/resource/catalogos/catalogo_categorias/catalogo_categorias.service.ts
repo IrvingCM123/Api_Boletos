@@ -19,18 +19,18 @@ export class CatalogoCategoriasService {
     private catalogoCategoriaRepository: Repository<CatalogoCategoria>
   ) {}
 
-  create(createCatalogoCategoriaDto: CreateCatalogoCategoriaDto, user: User_Interface) {
+  async create(createCatalogoCategoriaDto: CreateCatalogoCategoriaDto, user: User_Interface) {
     validateOwnershipAdmin(user);
 
-    let buscar = this.catalogoCategoriaRepository.findOne({
+    let buscar = await this.catalogoCategoriaRepository.findOne({
       where: { categoria: createCatalogoCategoriaDto.categoria },
     });
 
-    if (buscar) {
-      return Errores_Catalogos.CATALOG_ALREADY_EXISTS;
-    } else {
+    if (buscar == null) {
       this.catalogoCategoriaRepository.save(createCatalogoCategoriaDto);
       return Exito_Catalogos.CATALOGO_CREADO;
+    } else {
+      return Errores_Catalogos.CATALOG_ALREADY_EXISTS;
     }
   }
 

@@ -14,6 +14,14 @@ import { DetalleVehiculosModule } from './resource/transportes/detalle_vehiculos
 import { DetalleViajeModule } from './resource/viaje/detalle_viaje/detalle_viaje.module';
 import { ConductoresModule } from './resource/conductores/conductores.module';
 import { ViajeModule } from './resource/viaje/viaje/viaje.module';
+import { CondicionesBoletoModule } from './resource/boletos_recursos/condiciones_boleto/condiciones_boleto.module';
+import { DatosEmergenciaModule } from './resource/boletos_recursos/datos_emergencia/datos_emergencia.module';
+import { InformacionCompañiaModule } from './resource/boletos_recursos/informacion_compañia/informacion_compañia.module';
+import { DocumentacionAbordajeModule } from './resource/boletos_recursos/documentacion_abordaje/documentacion_abordaje.module';
+import { InstruccionesAbordajeModule } from './resource/boletos_recursos/instrucciones_abordaje/instrucciones_abordaje.module';
+import { InstruccionesSeguridadModule } from './resource/boletos_recursos/instrucciones_seguridad/instrucciones_seguridad.module';
+import { TerminosCondicionesModule } from './resource/boletos_recursos/terminos_condiciones/terminos_condiciones.module';
+import { BoletosModule } from './resource/boletos/boletos.module';
 
 @Module({
   imports: [
@@ -44,6 +52,14 @@ import { ViajeModule } from './resource/viaje/viaje/viaje.module';
     DetalleViajeModule,
     ConductoresModule,
     ViajeModule,
+    CondicionesBoletoModule,
+    DatosEmergenciaModule,
+    InformacionCompañiaModule,
+    DocumentacionAbordajeModule,
+    InstruccionesAbordajeModule,
+    InstruccionesSeguridadModule,
+    TerminosCondicionesModule,
+    BoletosModule
   ],
   controllers: [],
   providers: [],

@@ -24,16 +24,16 @@ export class CuentasService {
     private usuarioService: UsuarioService,
   ) {}
 
-  create(createCuentaDto: CreateCuentaDto) {
-    let buscar_cuenta = this.cuentaRepository.findOne({
+  async create(createCuentaDto: CreateCuentaDto) {
+    let buscar_cuenta = await this.cuentaRepository.findOne({
       where: { email: createCuentaDto.email },
     });
 
-    if (buscar_cuenta) {
-      return Errores_Cuentas.CUENTA_ALREADY_EXISTS;
-    } else {
+    if (buscar_cuenta == null) {
       this.cuentaRepository.save(createCuentaDto);
       return Exito_Cuentas.CUENTA_CREADA;
+    } else {
+      return Errores_Cuentas.CUENTA_ALREADY_EXISTS;
     }
   }
 

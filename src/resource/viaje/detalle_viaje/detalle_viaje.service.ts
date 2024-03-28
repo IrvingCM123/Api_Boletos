@@ -17,30 +17,23 @@ export class DetalleViajeService {
     private detalleViajeRepository: Repository<DetalleViaje>,
   ) {}
 
-  create(createDetalleViajeDto: CreateDetalleViajeDto, user: User_Interface) {
+  async create(
+    createDetalleViajeDto: CreateDetalleViajeDto,
+    user: User_Interface,
+  ) {
     validateOwnershipAll(user);
 
-    let buscar = this.detalleViajeRepository.findOne({
-      where: {
-        fecha_llegada: createDetalleViajeDto.fecha_llegada,
-        fecha_salida: createDetalleViajeDto.fecha_salida,
-        hora_llegada: createDetalleViajeDto.hora_llegada,
-        hora_salida: createDetalleViajeDto.hora_salida,
-        id_origen: createDetalleViajeDto.ID_Origen,
-        id_destino: createDetalleViajeDto.ID_Destino,
-        precio: createDetalleViajeDto.precio,
-      },
-    });
-
-    if (buscar) {
-      return Errores_Detalles_Viaje.DETAIL_ALREADY_EXISTS;
-    } else {
-      this.detalleViajeRepository.save(createDetalleViajeDto);
-      return Exito_Detalles_Viaje.DETALLE_VIAJE_CREADO;
+    try {
+      return {
+        message: Exito_Detalles_Viaje.DETALLE_VIAJE_CREADO,
+        result: await this.detalleViajeRepository.save(createDetalleViajeDto),
+      };
+    } catch (error) {
+      return Errores_Detalles_Viaje.DETAIL_NOT_CREATED;
     }
   }
 
-  findAll( user: User_Interface) {
+  findAll(user: User_Interface) {
     validateOwnershipAll(user);
     return this.detalleViajeRepository.find();
   }
@@ -55,7 +48,11 @@ export class DetalleViajeService {
     }
   }
 
-  update(id: number, updateDetalleViajeDto: UpdateDetalleViajeDto, user: User_Interface) {
+  update(
+    id: number,
+    updateDetalleViajeDto: UpdateDetalleViajeDto,
+    user: User_Interface,
+  ) {
     validateOwnershipAll(user);
 
     try {

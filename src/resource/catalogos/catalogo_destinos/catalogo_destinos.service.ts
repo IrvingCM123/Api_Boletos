@@ -21,18 +21,18 @@ export class CatalogoDestinosService {
     private catalogoDestinoRepository: Repository<CatalogoDestino>,
   ) {}
 
-  create(createCatalogoDestinoDto: CreateCatalogoDestinoDto, user: User_Interface) {
+  async create(createCatalogoDestinoDto: CreateCatalogoDestinoDto, user: User_Interface) {
     validateOwnershipAdmin(user);
 
-    let buscar = this.catalogoDestinoRepository.findOne({
+    let buscar = await this.catalogoDestinoRepository.findOne({
       where: { Terminal: createCatalogoDestinoDto.Terminal },
     });
 
-    if (buscar) {
-      return Errores_Catalogos.CATALOG_ALREADY_EXISTS;
-    } else {
+    if (buscar == null) {
       this.catalogoDestinoRepository.save(createCatalogoDestinoDto);
       return Exito_Catalogos.CATALOGO_CREADO;
+    } else {
+      return Errores_Catalogos.CATALOG_ALREADY_EXISTS;
     }
   }
 

@@ -20,7 +20,7 @@ export class DetalleViajeController {
   }
 
   @Get()
-  findAll( user: User_Interface) {
+  findAll( @ActiveUser() user: User_Interface) {
     return this.detalleViajeService.findAll(user);
   }
 
