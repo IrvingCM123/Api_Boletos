@@ -22,7 +22,7 @@ export class DetalleViajeService {
     user: User_Interface,
   ) {
     validateOwnershipAll(user);
-
+    console.log(createDetalleViajeDto);
     try {
       return {
         message: Exito_Detalles_Viaje.DETALLE_VIAJE_CREADO,

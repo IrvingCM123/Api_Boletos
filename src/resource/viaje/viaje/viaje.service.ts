@@ -98,14 +98,15 @@ export class ViajeService {
         crear_detalle_viaje,
       );
 
-      if (detalle_viaje.message !== Exito_Detalles_Viaje.DETALLE_VIAJE_CREADO) {
+      if (detalle_viaje == null || detalle_viaje == undefined) {
         await queryRunner.rollbackTransaction();
-        return Errores_Detalles_Viaje.DETAIL_NOT_CREATED;
       }
+
+      console.log("1");
 
       // Crear el viaje
       viaje = {
-        ID_Detalle_Viaje: detalle_viaje.result.id_detalle_viaje,
+        ID_Detalle_Viaje: detalle_viaje.id_detalle_viaje,
         ID_Conductor: createViajeDto.ID_Conductor,
         ID_Detalle_Vehiculo: createViajeDto.ID_Detalle_Vehiculo,
         Status: createViajeDto.Status,

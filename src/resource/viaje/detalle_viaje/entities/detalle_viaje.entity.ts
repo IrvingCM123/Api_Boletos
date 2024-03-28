@@ -1,5 +1,5 @@
 import { CatalogoDestino } from "src/resource/catalogos/catalogo_destinos/entities/catalogo_destino.entity";
-import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinColumn, JoinTable } from 'typeorm';
 
 @Entity()
 export class DetalleViaje {
@@ -22,12 +22,10 @@ export class DetalleViaje {
     @Column({ nullable: false })
     hora_llegada: string;
 
-    @ManyToMany(() => CatalogoDestino)
-    @JoinColumn({ name: 'id_catalogo_destino' })
-    id_origen: CatalogoDestino;
+    @Column({ nullable: false })
+    ID_Origen: number;
 
-    @ManyToMany(() => CatalogoDestino)
-    @JoinColumn({ name: 'id_catalogo_destino' })
-    id_destino: CatalogoDestino;
+    @Column({ nullable: false })
+    ID_Destino: number;
     
 }

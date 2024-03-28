@@ -24,6 +24,11 @@ export class BoletosController {
     return this.boletosService.findAll( user );
   }
 
+  @Get('/obtenerBoletos/:email')
+  buscar_boletos_email(@Param('email') email: string, @ActiveUser() user: User_Interface) {
+    return this.boletosService.buscar_boletos_email(email, user );
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string, @ActiveUser() user: User_Interface) {
     return this.boletosService.findOne(+id, user );

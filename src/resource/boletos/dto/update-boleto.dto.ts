@@ -28,6 +28,6 @@ export class UpdateBoletoDto extends PartialType(CreateBoletoDto) {
     id_usuario: number;
 
     @IsNumber()
-    Id_Viaje: number;
+    ID_Viaje: number;
 
 }

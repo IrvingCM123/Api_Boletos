@@ -41,11 +41,11 @@ export class CreateViajeDto {
 
     @IsNumber()
     @IsNotEmpty()
-    ID_Origen: CatalogoDestino;
+    ID_Origen: number;
 
     @IsNumber()
     @IsNotEmpty()
-    ID_Destino: CatalogoDestino;
+    ID_Destino: number;
 
     @IsString()
     @IsNotEmpty()

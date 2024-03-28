@@ -23,6 +23,9 @@ import { Usuario } from 'src/resource/usuario/entities/usuario.entity';
 import { Viaje } from 'src/resource/viaje/viaje/entities/viaje.entity';
 import { InformacionBoleto } from 'src/resource/boletos_recursos/informacion_boleto/entities/informacion_boleto.entity';
 import { InformacionBoletoService } from '../boletos_recursos/informacion_boleto/informacion_boleto.service';
+import { DetalleViaje } from '../viaje/detalle_viaje/entities/detalle_viaje.entity';
+import { CatalogoDestino } from '../catalogos/catalogo_destinos/entities/catalogo_destino.entity';
+import { Cuenta } from '../cuentas/entities/cuenta.entity';
 @Injectable()
 export class BoletosService {
   constructor(
@@ -35,6 +38,10 @@ export class BoletosService {
     @InjectRepository(InformacionBoleto)
     private informacionBoletoRepository: Repository<InformacionBoleto>,
     private informacionBoletoService: InformacionBoletoService,
+    @InjectRepository(CatalogoDestino)
+    private catalogoDestinoRepository: Repository<CatalogoDestino>,
+    @InjectRepository(Cuenta)
+    private cuentaRepository: Repository<Cuenta>,
   ) {}
 
   async create(createBoletoDto: CreateBoletoDto, user: User_Interface) {
@@ -113,9 +120,41 @@ export class BoletosService {
   async findAll(user: User_Interface) {
     validateOwnershipAdmin(user);
 
-    let informacion: any = {};
+    let boletos = await this.boletoRepository.find();
 
-    let boletos: any = await this.boletoRepository.find();
+    try {
+      let informacion = await this.obtener_informacion_boletos(boletos, user);
+      return informacion;
+    } catch (error) {
+      return Errores_Boletos.TICKET_NOT_FOUND;
+    }
+  }
+
+  async findOne(id: number, user: User_Interface) {
+    validateOwnershipAdmin(user);
+
+    try {
+      let boleto = await this.boletoRepository.findOne({
+        where: { Id_Boleto: id },
+      });
+
+      if (boleto == null) {
+        return Errores_Boletos.TICKET_NOT_FOUND;
+      }
+
+      let boleto_array = [];
+      boleto_array.push(boleto);
+
+      let informacion = await this.obtener_informacion_boletos(boleto_array,user,);
+
+      return informacion;
+    } catch (error) {
+      return Errores_Boletos.TICKET_NOT_FOUND;
+    }
+  }
+
+  async obtener_informacion_boletos(boletos: any, user: User_Interface) {
+    let informacion: any = {};
 
     informacion.boletos = [];
 
@@ -143,14 +182,40 @@ export class BoletosService {
         direccion: buscarUsuario.address,
       };
 
-      let viaje = await this.viajeRepository.findOne({
-        where: { ID_Viaje: boleto.ID_Viaje },
+      let viaje = await this.viajeRepository
+        .createQueryBuilder('viaje')
+        .leftJoinAndSelect('viaje.ID_Detalle_Viaje', 'detalle_viaje')
+        .where('viaje.ID_Viaje = :ID_Viaje', { ID_Viaje: boleto.ID_Viaje })
+        .getOne();
+
+      let detalle_viaje = viaje.ID_Detalle_Viaje;
+
+      let id_destino = parseInt(detalle_viaje.ID_Destino.toString());
+
+      let destino = await this.catalogoDestinoRepository.findOne({
+        where: { id_catalogo_destino: id_destino },
+      });
+
+      let id_origen = parseInt(detalle_viaje.ID_Origen.toString());
+
+      let origen = await this.catalogoDestinoRepository.findOne({
+        where: { id_catalogo_destino: id_origen },
       });
 
       boletoInfo.viaje = {
         ID_Viaje: viaje.ID_Viaje,
         Status: viaje.Status,
         Numero_Viaje: viaje.Numero_Servicio,
+        Detalle_Viaje: {
+          id_detalle_viaje: detalle_viaje.id_detalle_viaje,
+          Fecha_Salida: detalle_viaje.fecha_salida,
+          Fecha_Llegada: detalle_viaje.fecha_llegada,
+          Hora_Salida: detalle_viaje.hora_salida,
+          Hora_Llegada: detalle_viaje.hora_llegada,
+          Origen: origen,
+          Destino: destino,
+          Precio: detalle_viaje.precio,
+        },
       };
 
       boletoInfo.boleto = {
@@ -164,26 +229,52 @@ export class BoletosService {
       informacion.boletos.push(boletoInfo);
     }
 
-    let informacion_adicional = await this.informacionBoletoService.findOne(1, user);
+    let informacion_adicional = await this.informacionBoletoService.findOne(
+      1,
+      user,
+    );
+
     informacion.boletos.push(informacion_adicional);
+
     return informacion;
   }
 
-  async findOne(id: number, user: User_Interface) {
+  async buscar_boletos_email(email: string, user: User_Interface) {
     validateOwnershipAdmin(user);
 
-    let boletos_viaje = await this.boletoRepository
-      .createQueryBuilder('boleto')
-      .leftJoinAndSelect('boleto.id_informacion_boleto', 'informacion_boleto')
-      .leftJoinAndSelect('boleto.id_usuario', 'usuario')
-      .leftJoinAndSelect('boleto.ID_Viaje', 'viaje')
-      .where('boletos.ID_Viaje = :ID_Viaje', { id })
-      .getMany();
 
     try {
-      return this.boletoRepository.findOneById(id);
+    
+      let buscar_cuenta = await this.cuentaRepository
+      .createQueryBuilder('cuenta')
+      .leftJoinAndSelect('cuenta.id_usuario', 'usuario')
+      .where('cuenta.email = :email', { email })
+      .getOne();
+
+      let id_usuario = buscar_cuenta.id_usuario.id_usuario;
+
+      let boletos: any = await this.boletoRepository.find({
+        where: { id_usuario: id_usuario },
+      });
+
+      let boletos_array = [];
+
+      for (const boleto of boletos) {
+        boletos_array.push(boleto);
+      }
+
+      if (boletos_array.length == 0) {
+        return 'Sin boletos disponibles';
+      } else {
+        let informacion = await this.obtener_informacion_boletos(
+          boletos_array,
+          user,
+        );
+
+        return informacion;
+      }
     } catch (error) {
-      return Errores_Boletos.TICKET_NOT_FOUND;
+      return error;
     }
   }
 
@@ -199,7 +290,7 @@ export class BoletosService {
     }
 
     try {
-      //this.boletoRepository.update(id, updateBoletoDto);
+      this.boletoRepository.update(id, updateBoletoDto);
     } catch (error) {
       return Errores_Boletos.TICKET_NOT_UPDATED;
     }

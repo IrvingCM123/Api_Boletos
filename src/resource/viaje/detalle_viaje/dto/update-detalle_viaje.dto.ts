@@ -4,16 +4,15 @@ import { CreateDetalleViajeDto } from './create-detalle_viaje.dto';
 import { IsString, IsNotEmpty, IsNumber, Matches } from 'class-validator';
 import { CatalogoDestino } from 'src/resource/catalogos/catalogo_destinos/entities/catalogo_destino.entity';
 
-
 export class UpdateDetalleViajeDto extends PartialType(CreateDetalleViajeDto) {
 
     @IsNumber()
     @IsNotEmpty()
-    ID_Origen: CatalogoDestino;
+    ID_Origen: number;
 
     @IsNumber()
     @IsNotEmpty()
-    ID_Destino: CatalogoDestino;
+    ID_Destino: number;
 
     @IsString()
     @IsNotEmpty()
