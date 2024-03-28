@@ -60,3 +60,9 @@ export enum Exito_Viaje {
     VIAJE_ACTUALIZADO = 'Viaje actualizado con éxito',
     VIAJE_ELIMINADO = 'Viaje eliminado con éxito',
 }
+
+export enum Exito_Boletos {
+    BOLETO_CREADO = 'Boleto creado con éxito',
+    BOLETO_ACTUALIZADO = 'Boleto actualizado con éxito',
+    BOLETO_ELIMINADO = 'Boleto eliminado con éxito',
+}

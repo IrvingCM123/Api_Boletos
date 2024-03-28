@@ -1,41 +1,33 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateInformacionBoletoDto } from './create-informacion_boleto.dto';
 
-import { InformacionBoleto } from '../entities/informacion_boleto.entity';
-import { CondicionesBoleto } from '../../condiciones_boleto/entities/condiciones_boleto.entity';
-import { DatosEmergencia } from '../../datos_emergencia/entities/datos_emergencia.entity';
-import { InformacionCompañia } from '../../informacion_compañia/entities/informacion_compañia.entity';
-import { DocumentacionAbordaje } from '../../documentacion_abordaje/entities/documentacion_abordaje.entity';
-import { InstruccionesAbordaje } from '../../instrucciones_abordaje/entities/instrucciones_abordaje.entity';
-import { InstruccionesSeguridad } from '../../instrucciones_seguridad/entities/instrucciones_seguridad.entity';
-import { TerminosCondicione } from './../../terminos_condiciones/entities/terminos_condicione.entity';
 import { IsNotEmpty } from 'class-validator';
 
 
 export class UpdateInformacionBoletoDto extends PartialType(CreateInformacionBoletoDto) {
 
     @IsNotEmpty()
-    ID_Informacion_Boleto: InformacionBoleto;
+    ID_Informacion_Boleto: number[];
 
     @IsNotEmpty()
-    id_condicion_boleto: CondicionesBoleto;
+    id_condicion_boleto: number[];
 
     @IsNotEmpty()
-    id_dato_emergencia: DatosEmergencia;
+    id_dato_emergencia: number[];
 
     @IsNotEmpty()
-    id_informacion_compañia: InformacionCompañia;
+    id_informacion_compañia: number[];
 
     @IsNotEmpty()
-    id_documentacion_abordaje: DocumentacionAbordaje;
+    id_documentacion_abordaje: number[];
 
     @IsNotEmpty()
-    id_instrucciones_abordaje: InstruccionesAbordaje;
+    id_instrucciones_abordaje: number[];
 
     @IsNotEmpty()
-    id_instrucciones_seguridad: InstruccionesSeguridad;
+    id_instrucciones_seguridad: number[];
 
     @IsNotEmpty()
-    id_terminos_condiciones: TerminosCondicione;
+    id_terminos_condiciones: number[];
 
 }

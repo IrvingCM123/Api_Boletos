@@ -1,12 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
-
-import { CondicionesBoleto } from '../../condiciones_boleto/entities/condiciones_boleto.entity';
-import { DatosEmergencia } from '../../datos_emergencia/entities/datos_emergencia.entity';
-import { InformacionCompañia } from '../../informacion_compañia/entities/informacion_compañia.entity';
-import { DocumentacionAbordaje } from '../../documentacion_abordaje/entities/documentacion_abordaje.entity';
-import { InstruccionesAbordaje } from '../../instrucciones_abordaje/entities/instrucciones_abordaje.entity';
-import { InstruccionesSeguridad } from '../../instrucciones_seguridad/entities/instrucciones_seguridad.entity';
-import { TerminosCondicione } from './../../terminos_condiciones/entities/terminos_condicione.entity';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class InformacionBoleto {
@@ -14,32 +6,25 @@ export class InformacionBoleto {
     @PrimaryGeneratedColumn()
     id_informacion_boleto: number;
 
-    @ManyToMany(() => CondicionesBoleto)
-    @JoinColumn({ name: 'id_condicion_boleto' })
-    id_condicion_boleto: CondicionesBoleto[];
+    @Column({ type: 'integer', array: true, default: [] })
+    id_condicion_boleto: number[];
 
-    @ManyToMany(() => DatosEmergencia)
-    @JoinColumn({ name: 'id_dato_emergencia' })
-    id_dato_emergencia: DatosEmergencia[];
+    @Column({ type: 'integer', array: true, default: [] })
+    id_dato_emergencia: number[];
 
-    @ManyToMany(() => InformacionCompañia)
-    @JoinColumn({ name: 'id_informacion_compañia' })
-    id_informacion_compañia: InformacionCompañia[];
+    @Column({ type: 'integer', array: true, default: [] })
+    id_informacion_compañia: number[];
 
-    @ManyToMany(() => DocumentacionAbordaje)
-    @JoinColumn({ name: 'id_documentacion_abordaje' })
-    id_documentacion_abordaje: DocumentacionAbordaje[];
+    @Column({ type: 'integer', array: true, default: [] })
+    id_documentacion_abordaje: number[];
 
-    @ManyToMany(() => InstruccionesAbordaje)
-    @JoinColumn({ name: 'id_instrucciones_abordaje' })
-    id_instrucciones_abordaje: InstruccionesAbordaje[];
+    @Column({ type: 'integer', array: true, default: [] })
+    id_instrucciones_abordaje: number[];
 
-    @ManyToMany(() => InstruccionesSeguridad)
-    @JoinColumn({ name: 'id_instrucciones_seguridad' })
-    id_instrucciones_seguridad: InstruccionesSeguridad[];
+    @Column({ type: 'integer', array: true, default: [] })
+    id_instrucciones_seguridad: number[];
 
-    @ManyToMany(() => TerminosCondicione)
-    @JoinColumn({ name: 'id_terminos_condiciones' })
-    id_terminos_condiciones: TerminosCondicione[];
+    @Column({ type: 'integer', array: true, default: [] })
+    id_terminos_condiciones: number[];
 
 }

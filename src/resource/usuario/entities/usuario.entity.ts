@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn, OneToMany } from 'typeorm';
 
 import { Rol } from 'src/common/enums/rol.enum';
+import { Boleto } from 'src/resource/boletos/entities/boleto.entity';
 
 @Entity()
 export class Usuario {

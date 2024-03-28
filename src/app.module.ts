@@ -22,6 +22,7 @@ import { InstruccionesAbordajeModule } from './resource/boletos_recursos/instruc
 import { InstruccionesSeguridadModule } from './resource/boletos_recursos/instrucciones_seguridad/instrucciones_seguridad.module';
 import { TerminosCondicionesModule } from './resource/boletos_recursos/terminos_condiciones/terminos_condiciones.module';
 import { BoletosModule } from './resource/boletos/boletos.module';
+import { InformacionBoletoModule } from './resource/boletos_recursos/informacion_boleto/informacion_boleto.module';
 
 @Module({
   imports: [
@@ -59,7 +60,8 @@ import { BoletosModule } from './resource/boletos/boletos.module';
     InstruccionesAbordajeModule,
     InstruccionesSeguridadModule,
     TerminosCondicionesModule,
-    BoletosModule
+    BoletosModule,
+    InformacionBoletoModule
   ],
   controllers: [],
   providers: [],

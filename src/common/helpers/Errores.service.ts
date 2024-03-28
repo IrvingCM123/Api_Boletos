@@ -119,3 +119,12 @@ export enum Errores_Destinos {
     DESTINOS_ALREADY_EXISTS = 'Destino',
     DESTINOS_SAME = 'Los destinos no pueden ser iguales',
 }
+
+export enum Errores_Boletos {
+    TICKET_NOT_FOUND = 'Boleto no encontrado',
+    TICKET_INVALID = 'Boleto inválido',
+    TICKET_NOT_CREATED = 'Boleto no creado',
+    TICKET_NOT_UPDATED = 'Boleto no actualizado',
+    TICKET_NOT_DELETED = 'Boleto no eliminado',
+    TICKET_ALREADY_EXISTS = 'Boleto ya existe',
+}

@@ -2,35 +2,27 @@ import {
     IsNotEmpty,
     } from 'class-validator';
 
-import { CondicionesBoleto } from '../../condiciones_boleto/entities/condiciones_boleto.entity';
-import { DatosEmergencia } from '../../datos_emergencia/entities/datos_emergencia.entity';
-import { InformacionCompañia } from '../../informacion_compañia/entities/informacion_compañia.entity';
-import { DocumentacionAbordaje } from '../../documentacion_abordaje/entities/documentacion_abordaje.entity';
-import { InstruccionesAbordaje } from '../../instrucciones_abordaje/entities/instrucciones_abordaje.entity';
-import { InstruccionesSeguridad } from '../../instrucciones_seguridad/entities/instrucciones_seguridad.entity';
-import { TerminosCondicione } from './../../terminos_condiciones/entities/terminos_condicione.entity';
-
 export class CreateInformacionBoletoDto {
 
     @IsNotEmpty()
-    ID_Condiciones_Boleto: CondicionesBoleto[];
+    ID_Condiciones_Boleto:number[];
 
     @IsNotEmpty()
-    ID_Datos_Emergencia: DatosEmergencia[];
+    ID_Datos_Emergencia: number[];
 
     @IsNotEmpty()
-    ID_Informacion_Compañia: InformacionCompañia[];
+    ID_Informacion_Compañia: number[];
 
     @IsNotEmpty()
-    ID_Documentacion_Abordaje: DocumentacionAbordaje[];
+    ID_Documentacion_Abordaje: number[];
 
     @IsNotEmpty()
-    ID_Instrucciones_Abordaje: InstruccionesAbordaje[];
+    ID_Instrucciones_Abordaje: number[];
 
     @IsNotEmpty()
-    ID_Instrucciones_Seguridad: InstruccionesSeguridad[];
+    ID_Instrucciones_Seguridad: number[];
 
     @IsNotEmpty()
-    ID_Terminos_Condiciones: TerminosCondicione[];
+    ID_Terminos_Condiciones: number[];
 
 }
