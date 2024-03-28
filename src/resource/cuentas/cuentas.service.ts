@@ -24,8 +24,17 @@ export class CuentasService {
     private usuarioService: UsuarioService,
   ) {}
 
-  create(createCuentaDto: CreateCuentaDto) {
-    return this.cuentaRepository.save(createCuentaDto);
+  async create(createCuentaDto: CreateCuentaDto) {
+    let buscar_cuenta = await this.cuentaRepository.findOne({
+      where: { email: createCuentaDto.email },
+    });
+
+    if (buscar_cuenta == null) {
+      this.cuentaRepository.save(createCuentaDto);
+      return Exito_Cuentas.CUENTA_CREADA;
+    } else {
+      return Errores_Cuentas.CUENTA_ALREADY_EXISTS;
+    }
   }
 
   findAll() {
@@ -77,7 +86,11 @@ export class CuentasService {
   }
 
   findOne(id: number) {
-    return this.cuentaRepository.findOneById(id);
+    try {
+      return this.cuentaRepository.findOneById(id);
+    } catch (error) {
+      return Errores_Cuentas.CUENTA_NOT_FOUND;
+    }
   }
 
   update(id: number, updateCuentaDto: UpdateCuentaDto) {

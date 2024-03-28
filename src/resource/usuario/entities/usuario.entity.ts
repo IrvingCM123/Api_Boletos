@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn, OneToMany } from 'typeorm';
 
 import { Rol } from 'src/common/enums/rol.enum';
+import { Boleto } from 'src/resource/boletos/entities/boleto.entity';
 
 @Entity()
 export class Usuario {
@@ -20,7 +21,10 @@ export class Usuario {
     @Column({ nullable: false })
     address: string;
 
-    @Column({ type: 'enum', default: Rol.USER, enum: Rol })
+    @Column({ type: 'enum', default: Rol.ADMIN, enum: Rol })
     rol: Rol;
+
+    @Column({ nullable: true })
+    token_notificacion: string;
 
 }
