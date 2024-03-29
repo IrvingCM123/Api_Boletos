@@ -23,9 +23,12 @@ import { InstruccionesSeguridadModule } from './resource/boletos_recursos/instru
 import { TerminosCondicionesModule } from './resource/boletos_recursos/terminos_condiciones/terminos_condiciones.module';
 import { BoletosModule } from './resource/boletos/boletos.module';
 import { InformacionBoletoModule } from './resource/boletos_recursos/informacion_boleto/informacion_boleto.module';
+import { ClientModule } from './client/client.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'ep-mute-grass-a5yv0kt7-pooler.us-east-2.aws.neon.tech',
@@ -61,7 +64,8 @@ import { InformacionBoletoModule } from './resource/boletos_recursos/informacion
     InstruccionesSeguridadModule,
     TerminosCondicionesModule,
     BoletosModule,
-    InformacionBoletoModule
+    InformacionBoletoModule,
+    ClientModule
   ],
   controllers: [],
   providers: [],

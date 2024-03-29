@@ -13,16 +13,13 @@ import { Message_Interface } from 'src/common/interfaces/message.interface';
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
+  @Post()
+  sendNotification(@Body() Datos: Message_Interface,Token: string[], @ActiveUser() user: User_Interface) {
+    return this.messagesService.sendNotification(Datos,Token, user);
+  }
+
   @Get('token')
   getFirebaseToken(@ActiveUser() user: User_Interface) {
     return this.messagesService.getAccessToken(user);
-  }
-
-  @Post('Send')
-  sendNotification(
-    @ActiveUser() user: User_Interface,
-    @Body() tokens: string[], data: Message_Interface
-  ) {
-    return this.messagesService.sendNotification(user, tokens, data);
   }
 }

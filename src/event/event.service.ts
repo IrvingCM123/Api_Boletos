@@ -26,7 +26,7 @@ export class EventService {
     try {
       //const event = this.eventRepository.create(createEventDto);
       //this.eventRepository.save(event);
-      this.messagesService.sendNotification(user, ['token'], createEventDto);
+      this.messagesService.sendNotification('token', createEventDto, user);
       return;
     } catch (error) {
       throw new Error(Errores_Incidentes.EVENT_NOT_CREATED);
