@@ -1,7 +1,11 @@
+import { firebaseAdmin } from './../Firebase/firebase.config';
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-import { Email_Interface } from 'src/common/interfaces/email.interface';
 import * as dotenv from 'dotenv';
+import * as puppeteer from 'puppeteer';
+import axios from 'axios';
+import * as fs from 'fs';
+import { boleto_template } from './template/boleto.template';
 
 @Injectable()
 export class ClientService {
@@ -9,25 +13,28 @@ export class ClientService {
     dotenv.config();
   }
 
-  async enviarEmail(
-    Destinatario: string,
-    Data: Email_Interface,
-  ): Promise<string> {
+  async enviarEmail(Data: any): Promise<string> {
     try {
+      const datos_env: any = require('dotenv').config(process.env.EMAIL_USER);
+
+      const Destinatario = Data.Destinatario;
+
+      const Datos = Data.Data;
+
+      let datos_imagen: any = {
+        Nombre: Datos.Nombre_Usuario,
+        Destino: Datos.Destino_Viaje,
+      };
+
+      let url_imagen = await this.convertToImage(datos_imagen);
+
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: require('dotenv').config(process.env.EMAIL_USER),
-          pass: require('dotenv').config(process.env.EMAIL_PASS),
+          user: datos_env.parsed.EMAIL_USER,
+          pass: datos_env.parsed.EMAIL_PASS,
         },
       });
-
-      const emailUser: any = require('dotenv').config(process.env.EMAIL_USER);
-      const emailPass = process.env.EMAIL_PASS;
-
-      console.log(emailUser, 'dawd');
-
-      console.log(transporter);
 
       const htmlContent = `
     <!DOCTYPE html>
@@ -79,14 +86,14 @@ export class ClientService {
             <h2>¡Ya tienes tu boleto de autobús!</h2>
           </div>
           <div class="info">
-            <p>Hola ${Data.Nombre_Usuario}!</p>
-            <p>Fecha del viaje: ${Data.Fecha_Viaje}<br>
-               Hora de salida: ${Data.Hora_Salida}<br>
-               Origen: ${Data.Origen_Viaje}<br>
-               Destino: ${Data.Destino_Viaje}</p>
+            <p>Hola ${Datos.Nombre_Usuario}!</p>
+            <p>Fecha del viaje: ${Datos.Fecha_Viaje}<br>
+               Hora de salida: ${Datos.Hora_Salida}<br>
+               Origen: ${Datos.Origen_Viaje}<br>
+               Destino: ${Datos.Destino_Viaje}</p>
           </div>
           <div class="download-link">
-            <p>Por favor, haga clic en el siguiente enlace para descargar su boleto: <a href="${Data.Enlace_Boleto}">Enlace de descarga</a></p>
+            <p>Por favor, haga clic en el siguiente enlace para descargar su boleto:  <a href="${url_imagen}" download="Boleto">Enlace de descarga</a></p>
           </div>
           <div class="info">
             <p>Si tiene alguna pregunta o necesita asistencia adicional, no dude en ponerse en contacto con nosotros. ¡Estamos aquí para ayudarle!</p>
@@ -101,9 +108,9 @@ export class ClientService {
 `;
 
       const message = {
-        from: process.env.EMAIL_USER,
+        from: datos_env.EMAIL_USER,
         to: Destinatario,
-        subject: 'YellowPass',
+        subject: '¡Aquí está tu boleto de autobús!',
         html: htmlContent,
       };
 
@@ -112,5 +119,54 @@ export class ClientService {
     } catch (error) {
       throw new Error('Error al enviar el correo electrónico');
     }
+  }
+
+  async convertToImage(Datos: string) {
+    const htmlContent = boleto_template(Datos);
+
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.setContent(htmlContent);
+
+    const screenshotBuffer = await page.screenshot({
+      type: 'jpeg',
+      quality: 90,
+    });
+
+    const screenshotBase64 = screenshotBuffer.toString('base64');
+
+    await browser.close();
+
+    let file_name = 'boleto.jpg';
+    let image_path = await this.uploadImage(screenshotBase64, file_name);
+
+    return image_path;
+  }
+
+  async uploadImage(imagenBase64, filename: string) {
+    let db = firebaseAdmin.storage();
+    let bucket = db.bucket();
+    const filePath = `Multimedia//${filename}`;
+
+    const imageBuffer = Buffer.from(imagenBase64, 'base64');
+
+    await bucket.file(filePath).save(imageBuffer, {
+      metadata: {
+        contentType: 'image/jpeg',
+      },
+    });
+
+    const expiresInSeconds = 30 * 24 * 60 * 60;
+
+    const downloadUrl = await bucket.file(filePath).getSignedUrl({
+      action: 'read',
+      expires: Date.now() + expiresInSeconds * 1000,
+    });
+
+    return downloadUrl[0];
+  }
+  catch(error) {
+    console.error('Error al subir la imagen a Firebase Storage:', error);
+    throw error;
   }
 }

@@ -1,4 +1,5 @@
 export interface Email_Interface {
+    Destinatario: string;
     Nombre_Usuario: string;
     Fecha_Viaje: string;
     Hora_Salida: string;

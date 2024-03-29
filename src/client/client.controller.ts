@@ -7,8 +7,8 @@ export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
   @Post('email')
-  create(@Body() Destinatario: string, Data: Email_Interface  ) {
-    return this.clientService.enviarEmail(Destinatario, Data);
+  create(@Body() Data: Email_Interface  ) {
+    return this.clientService.enviarEmail(Data);
   }
 
 }

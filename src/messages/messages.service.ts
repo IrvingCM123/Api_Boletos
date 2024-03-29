@@ -72,7 +72,7 @@ export class MessagesService {
               android: {
                 notification: {
                   image:
-                    (datos && datos.Imagen) ??
+                    (datos.Imagen ) ??
                     'https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png',
                 },
               },
@@ -84,7 +84,7 @@ export class MessagesService {
                 },
                 fcm_options: {
                   image:
-                    (datos && datos.Imagen) ??
+                    (datos.Imagen) ??
                     'https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png',
                 },
               },
