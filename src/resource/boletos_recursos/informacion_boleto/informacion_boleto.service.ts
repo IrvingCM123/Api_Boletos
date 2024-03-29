@@ -5,7 +5,7 @@ import { UpdateInformacionBoletoDto } from './dto/update-informacion_boleto.dto'
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User_Interface } from 'src/common/interfaces/user.interface';
-import { validateOwnershipAdmin } from 'src/Guard/validateOwnerShip.guard';
+import { validateOwnershipAdmin, validateOwnershipAll } from 'src/Guard/validateOwnerShip.guard';
 import { plainToClass } from 'class-transformer';
 
 import { InformacionBoleto } from './entities/informacion_boleto.entity';
@@ -58,12 +58,12 @@ export class InformacionBoletoService {
   }
 
   findAll(user: User_Interface) {
-    validateOwnershipAdmin(user);
+    validateOwnershipAll(user);
     return this.informacionBoletoRepository.find();
   }
 
   async findOne(id: number, user: User_Interface) {
-    validateOwnershipAdmin(user);
+    validateOwnershipAll(user);
 
     try {
       let informacion: any = {};

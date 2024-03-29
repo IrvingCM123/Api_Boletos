@@ -20,9 +20,15 @@ export function validateOwnershipAdmin(user: User_Interface) {
 }
 
 export function validateOwnershipAll(user: User_Interface) {
-  if (user.role == Rol.ADMIN || user.role == Rol.USER) {
+  if (user.role === Rol.ADMIN) {
     return true;
-  } else {
+  }
+
+  if (user.role === Rol.USER) {
+    return true;
+  }
+
+  if (user.role !== Rol.ADMIN && user.role !== Rol.USER) {
     throw new UnauthorizedException(Errores_Roles.ROLE_UNAUTHORIZED);
   }
 }

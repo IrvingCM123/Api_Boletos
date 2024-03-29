@@ -4,7 +4,7 @@ import { UpdateBoletoDto } from './dto/update-boleto.dto';
 
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { validateOwnershipAdmin } from 'src/Guard/validateOwnerShip.guard';
+import { validateOwnershipAdmin,validateOwnershipAll } from 'src/Guard/validateOwnerShip.guard';
 import { User_Interface } from 'src/common/interfaces/user.interface';
 
 import { Boleto } from './entities/boleto.entity';
@@ -118,7 +118,7 @@ export class BoletosService {
   }
 
   async findAll(user: User_Interface) {
-    validateOwnershipAdmin(user);
+    validateOwnershipAll(user);
 
     let boletos = await this.boletoRepository.find();
 
@@ -131,7 +131,7 @@ export class BoletosService {
   }
 
   async findOne(id: number, user: User_Interface) {
-    validateOwnershipAdmin(user);
+    validateOwnershipAll(user);
 
     try {
       let boleto = await this.boletoRepository.findOne({
@@ -154,6 +154,7 @@ export class BoletosService {
   }
 
   async obtener_informacion_boletos(boletos: any, user: User_Interface) {
+    validateOwnershipAll(user);
     let informacion: any = {};
 
     informacion.boletos = [];
@@ -240,8 +241,8 @@ export class BoletosService {
   }
 
   async buscar_boletos_email(email: string, user: User_Interface) {
-    validateOwnershipAdmin(user);
-
+    validateOwnershipAll(user);
+    console.log('email', email);
 
     try {
     

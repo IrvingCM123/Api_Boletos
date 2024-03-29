@@ -9,6 +9,7 @@ import { ActiveUser } from 'src/common/decorators/user.decorator';
 import { User_Interface } from 'src/common/interfaces/user.interface';
 
 @Auth(Rol.ADMIN)
+@Auth(Rol.USER)
 @Controller('informacion-boleto')
 export class InformacionBoletoController {
   constructor(private readonly informacionBoletoService: InformacionBoletoService) {}

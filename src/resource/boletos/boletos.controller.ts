@@ -8,8 +8,9 @@ import { Rol } from 'src/common/enums/rol.enum';
 import { ActiveUser } from 'src/common/decorators/user.decorator';
 import { User_Interface } from 'src/common/interfaces/user.interface';
 
-@Auth(Rol.ADMIN)
+
 @Auth(Rol.USER)
+@Auth(Rol.ADMIN)
 @Controller('boletos')
 export class BoletosController {
   constructor(private readonly boletosService: BoletosService) {}
