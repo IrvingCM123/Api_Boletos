@@ -94,7 +94,7 @@ export class ClientService {
                Destino: ${Datos.Destino_Viaje}</p>
           </div>
           <div class="download-link">
-            <p>Por favor, haga clic en el siguiente enlace para descargar su boleto:  <a href="${url_imagen}" download="Boleto">Enlace de descarga</a></p>
+            <p>Por favor, haga clic en el siguiente enlace para descargar su boleto:  <a href="http://20.97.204.24/api/v1/client/boleto?url=${url_imagen}" download="Boleto.jpg">Enlace de descarga</a> >Enlace de descarga</a></p>
           </div>
           <div class="info">
             <p>Si tiene alguna pregunta o necesita asistencia adicional, no dude en ponerse en contacto con nosotros. ¡Estamos aquí para ayudarle!</p>
