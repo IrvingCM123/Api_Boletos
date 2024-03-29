@@ -6,6 +6,7 @@ import * as puppeteer from 'puppeteer';
 import axios from 'axios';
 import * as fs from 'fs';
 import { boleto_template } from './template/boleto.template';
+import * as request from 'request';
 
 @Injectable()
 export class ClientService {
@@ -168,5 +169,19 @@ export class ClientService {
   catch(error) {
     console.error('Error al subir la imagen a Firebase Storage:', error);
     throw error;
+  }
+
+  async Descargar_Boletos(urlImagen: string): Promise<Buffer> {
+    return new Promise((resolve, reject) => {
+      request.get(urlImagen, { encoding: null }, (error, response, body) => {
+        if (error) {
+          return reject(error);
+        }
+        if (response.statusCode !== 200) {
+          return reject(new Error(`Failed to fetch image. Status code: ${response.statusCode}`));
+        }
+        resolve(body);
+      });
+    });
   }
 }
