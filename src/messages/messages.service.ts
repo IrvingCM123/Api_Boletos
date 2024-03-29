@@ -15,17 +15,16 @@ import { Errores_Messages } from 'src/common/helpers/Errores.service';
 
 @Injectable()
 export class MessagesService {
-
-  private readonly MESSAGING_SCOPE = 'https://www.googleapis.com/auth/firebase.messaging';
+  private readonly MESSAGING_SCOPE =
+    'https://www.googleapis.com/auth/firebase.messaging';
 
   private readonly SCOPES = [this.MESSAGING_SCOPE];
 
   async getAccessToken(user: User_Interface): Promise<string> {
-
     this.validateOwnership(user);
 
     const firebase_config = firebaseAdminConfig;
-    
+
     if (!firebaseAdminConfig) {
       throw new Error(Errores_Messages.FIREBASE_CONFIG_LOAD);
     }
@@ -35,7 +34,7 @@ export class MessagesService {
       null,
       firebase_config.private_key,
       this.SCOPES,
-      null
+      null,
     );
 
     try {
@@ -46,61 +45,67 @@ export class MessagesService {
     }
   }
 
-  async sendNotification(
-    user: User_Interface,
-    tokens: string[],
-    data: Message_Interface
-    ): Promise<void> {
-      
+  async sendNotification(datos: any, tokens: any, user: User_Interface) {
     this.validateOwnership(user);
+
+    let informacion_mensaje = datos.datos;
 
     const accessToken = await this.getAccessToken(user);
 
-    for (const token of tokens) {
-      const message = {
-        token: token,
-        data: data,
-        notification: {
-          Titulo: data.Titulo,
-          Descripcion: data.Descripcion,
-          Evento: data.Evento,
-          Lugar: data.Lugar,
-          Viaje: data.Viaje,
-        },
-        android: {
-          notification: {
-            image: (data && data.Imagen) ?? 'https://foo.bar/default-image.png'
-          }
-        },
-        apns: {
-          payload: {
-            aps: {
-              'mutable-content': 1
-            }
-          },
-          fcm_options: {
-            image: (data && data.Imagen) ?? 'https://foo.bar/default-image.png'
-          }
-        }
-      };
-
+    for (const token of datos.tokens) {
       try {
-        await axios.post('https://fcm.googleapis.com/v1/projects/guadalajara-17336/messages:send', {
-          message
-        }, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-          }
-        });
+        await axios.post(
+          'https://fcm.googleapis.com/v1/projects/guadalajara-17336/messages:send',
+          {
+            message: {
+              token: token,
+              data: {
+                Evento: informacion_mensaje.Evento,
+                Lugar: informacion_mensaje.Lugar,
+                Viaje: informacion_mensaje.Viaje,
+                Hora_Reprogramada: informacion_mensaje.Hora_Reprogramada,
+              },
+              notification: {
+                title: informacion_mensaje.Titulo,
+                body: informacion_mensaje.Descripcion,
+              },
+              android: {
+                notification: {
+                  image:
+                    (datos && datos.Imagen) ??
+                    'https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png',
+                },
+              },
+              apns: {
+                payload: {
+                  aps: {
+                    'mutable-content': 1,
+                  },
+                },
+                fcm_options: {
+                  image:
+                    (datos && datos.Imagen) ??
+                    'https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png',
+                },
+              },
+            },
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+
+        return 'Mensaje enviado correctamente';
       } catch (error) {
         throw new Error(Errores_Messages.MESSAGE_SEND_ERROR);
       }
     }
   }
-
   private validateOwnership(user: User_Interface) {
-    if (user.role !== Rol.USER) {
+    if (user.role !== Rol.ADMIN) {
       throw new UnauthorizedException(Errores_Roles.ROLE_UNAUTHORIZED);
     } else {
       return true;
