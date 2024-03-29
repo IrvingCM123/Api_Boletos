@@ -15,9 +15,9 @@ export class ClientController {
   @Post('boleto') 
   async downloadBoleto(@Body() url: any, @Res() res: Response): Promise<void> {
     try {
-      const urlImagen: string = url.url; // Suponiendo que el objeto `url` tiene una propiedad `url` que contiene la URL de la imagen
+      const urlImagen: string = url.url;
       const imageData = await this.clientService.Descargar_Boletos(urlImagen);
-      res.set('Content-Type', 'image/jpeg'); // Ajusta el tipo de contenido según el tipo de imagen
+      res.set('Content-Type', 'image/jpeg');
       res.send(imageData);
     } catch (error) {
       res.status(500).send({ message: 'Error al descargar la imagen' });
