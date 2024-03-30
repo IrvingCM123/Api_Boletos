@@ -83,15 +83,19 @@ export class ClientService {
       </head>
       <body>
         <div class="container">
+
+        <div class="image-container">
+        <img src="https://firebasestorage.googleapis.com/v0/b/heartmodel-caedd.appspot.com/o/Captura%20de%20pantalla%202024-03-26%20220537.png?alt=media&token=1b3504aa-9a28-402b-bbed-c8b68ce6c8ef" alt="Imagen 1">
+        </div>
+
           <div class="header">
             <h2>¡Ya tienes tu boleto de autobús!</h2>
           </div>
           <div class="info">
             <p>Hola ${Datos.Nombre_Usuario}!</p>
             <p>Fecha del viaje: ${Datos.Fecha_Viaje}<br>
-               Hora de salida: ${Datos.Hora_Salida}<br>
-               Origen: ${Datos.Origen_Viaje}<br>
-               Destino: ${Datos.Destino_Viaje}</p>
+              Viaje: ${Datos.Origen_Viaje} -  ${Datos.Destino_Viaje}<br>
+              Hora de salida: ${Datos.Hora_Salida}<br>
           </div>
           <div class="download-link">
             <p>Por favor, haga clic en el siguiente enlace para descargar su boleto:  <a href="${url_imagen}" download="Boleto.jpg">Enlace de descarga</a> >Enlace de descarga</a></p>
@@ -100,8 +104,16 @@ export class ClientService {
             <p>Si tiene alguna pregunta o necesita asistencia adicional, no dude en ponerse en contacto con nosotros. ¡Estamos aquí para ayudarle!</p>
             <p>Flecha Amarilla</p>
           </div>
-          <div class="image-container">
-            <img src="https://firebasestorage.googleapis.com/v0/b/heartmodel-caedd.appspot.com/o/Captura%20de%20pantalla%202024-03-26%20220537.png?alt=media&token=1b3504aa-9a28-402b-bbed-c8b68ce6c8ef" alt="Imagen 1">
+          <div class="info">
+            <h4> Agregar boleto a la wallet </h4>
+            <p>Si no tiene la aplicación Wallet instalada, puede descargarla desde la Play Store (Android) o la App Store (iOS).</p>
+            <p>Una vez que haya descargado e instalado la aplicación Wallet, siga estos pasos para agregar su boleto:</p>
+            <ol>
+              <li>Inicie sesión en la aplicación Wallet.</li>
+              <li>Seleccione la opción "Agregar a billetera".</li>
+              <li>Seleccione la imagen del boleto descargada en su dispositivo.</li>
+              <li>Haga clic en "Guardar".</li>
+            </ol>
           </div>
         </div>
       </body>
@@ -122,14 +134,11 @@ export class ClientService {
     }
   }
 
-
   async convertToImage(Datos: string) {
-
     let launchOptions = {
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     };
-  
 
     const htmlContent = boleto_template(Datos);
 
@@ -186,7 +195,11 @@ export class ClientService {
           return reject(error);
         }
         if (response.statusCode !== 200) {
-          return reject(new Error(`Failed to fetch image. Status code: ${response.statusCode}`));
+          return reject(
+            new Error(
+              `Failed to fetch image. Status code: ${response.statusCode}`,
+            ),
+          );
         }
         resolve(body);
       });
