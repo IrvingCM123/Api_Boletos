@@ -78,6 +78,7 @@ export class ClientService {
           img {
             max-width: 100%;
             height: auto;
+            padding: -20px;
           }
         </style>
       </head>
@@ -98,22 +99,29 @@ export class ClientService {
               Hora de salida: ${Datos.Hora_Salida}<br>
           </div>
           <div class="download-link">
-            <p>Por favor, haga clic en el siguiente enlace para descargar su boleto:  <a href="${url_imagen}" download="Boleto.jpg">Enlace de descarga</a> >Enlace de descarga</a></p>
+            <p>Por favor, haga clic en el siguiente enlace para descargar su boleto:  <a href="${url_imagen}" download="Boleto.jpg">Enlace de descarga</a></a></p>
           </div>
           <div class="info">
             <p>Si tiene alguna pregunta o necesita asistencia adicional, no dude en ponerse en contacto con nosotros. ¡Estamos aquí para ayudarle!</p>
             <p>Flecha Amarilla</p>
           </div>
           <div class="info">
-            <h4> Agregar boleto a la wallet </h4>
+            <h4>Agregar boleto a la wallet</h4>
             <p>Si no tiene la aplicación Wallet instalada, puede descargarla desde la Play Store (Android) o la App Store (iOS).</p>
             <p>Una vez que haya descargado e instalado la aplicación Wallet, siga estos pasos para agregar su boleto:</p>
-            <ol>
-              <li>Inicie sesión en la aplicación Wallet.</li>
-              <li>Seleccione la opción "Agregar a billetera".</li>
-              <li>Seleccione la imagen del boleto descargada en su dispositivo.</li>
-              <li>Haga clic en "Guardar".</li>
-            </ol>
+              <ol>
+                <li>Inicie sesión en la aplicación Wallet.</li>
+                <li>Seleccione la opción "Agregar a billetera".</li>
+                <li>Seleccione la imagen del boleto descargada en su dispositivo.</li>
+                <li>Haga clic en "Guardar".</li>
+              </ol>
+            <p>Descargar la aplicación:</p>
+              <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.walletnfcrel&pli=1">
+                  <img src="https://i2.wp.com/www.mobiflip.de/wp-content/uploads/2019/05/google-play-store-logo-header.jpg?fit=1085%2C868&ssl=1" alt="Play Store" width="150px">
+              </a>
+              <a href="https://apps.apple.com/mx/app/apple-wallet/id1160481993">
+                  <img src="https://th.bing.com/th/id/R.fa7891cc63b4dcab5230c6bdfe5d2c9c?rik=%2btTp1vvfSc2%2fyw&pid=ImgRaw&r=0" alt="App Store" width="150px">
+              </a>
           </div>
         </div>
       </body>
