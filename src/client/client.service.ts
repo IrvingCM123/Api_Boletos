@@ -7,6 +7,8 @@ import axios from 'axios';
 import * as fs from 'fs';
 import { boleto_template } from './template/boleto.template';
 import * as request from 'request';
+import { User_Interface } from 'src/common/interfaces/user.interface';
+import { validateOwnershipAdmin } from 'src/Guard/validateOwnerShip.guard';
 
 @Injectable()
 export class ClientService {
@@ -14,7 +16,10 @@ export class ClientService {
     dotenv.config();
   }
 
-  async enviarEmail(Data: any): Promise<string> {
+  async enviarEmail(Data: any,  user: User_Interface): Promise<string> {
+
+    validateOwnershipAdmin(user);
+
     try {
       const datos_env: any = require('dotenv').config(process.env.EMAIL_USER);
 
@@ -117,10 +122,10 @@ export class ClientService {
               </ol>
             <p>Descargar la aplicación:</p>
               <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.walletnfcrel&pli=1">
-                  <img src="https://i2.wp.com/www.mobiflip.de/wp-content/uploads/2019/05/google-play-store-logo-header.jpg?fit=1085%2C868&ssl=1" alt="Play Store" width="150px">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Google_Play_2022_logo.svg/512px-Google_Play_2022_logo.svg.png" alt="Play Store" width="150px">
               </a>
               <a href="https://apps.apple.com/mx/app/apple-wallet/id1160481993">
-                  <img src="https://th.bing.com/th/id/R.fa7891cc63b4dcab5230c6bdfe5d2c9c?rik=%2btTp1vvfSc2%2fyw&pid=ImgRaw&r=0" alt="App Store" width="150px">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Available_on_the_App_Store_%28black%29.png" alt="App Store" width="150px">
               </a>
           </div>
         </div>

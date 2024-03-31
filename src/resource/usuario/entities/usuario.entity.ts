@@ -27,4 +27,7 @@ export class Usuario {
     @Column({ nullable: true })
     token_notificacion: string;
 
+    @OneToMany(() => Boleto, (boleto) => boleto.id_usuario)
+    boletos: Boleto[];
+
 }

@@ -25,10 +25,12 @@ export class Boleto {
     @Column()
     id_informacion_boleto: number;
 
-    @Column()
+    @ManyToOne( () => Usuario, (usuario) => usuario.boletos )
+    @JoinColumn({ name: 'id_usuario' })
     id_usuario: number;
 
-    @Column()
-    ID_Viaje: number;
+    @ManyToOne( () => Viaje, (viaje) => viaje.boletos )
+    @JoinColumn({ name: 'viajeID' })
+    viajeID: number;
 
 }

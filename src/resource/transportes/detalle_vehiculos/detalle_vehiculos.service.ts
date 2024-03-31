@@ -41,9 +41,17 @@ export class DetalleVehiculosService {
     if (buscar_tipo == null) {
       return Errores_Catalogos.CATALOG_NOT_FOUND;
     }
+    
+    let detalle_vehiculo = {
+      marca: createDetalleVehiculoDto.marca,
+      modelo: createDetalleVehiculoDto.modelo,
+      numero_placas: createDetalleVehiculoDto.numero_placas,
+      id_catalogo_vehiculo: buscar_tipo.id_catalogo_vehiculo,
+      capacidad_asientos: createDetalleVehiculoDto.capacidad_asientos,
+    };
 
     if (buscar == null) {
-      this.detalleVehiculoRepository.save(createDetalleVehiculoDto);
+      this.detalleVehiculoRepository.save(detalle_vehiculo);
       return Exito_Vehiculos.VEHICULO_CREADO;
     } else {
       return Errores_Vehiculos.VEHICLE_ALREADY_EXISTS;

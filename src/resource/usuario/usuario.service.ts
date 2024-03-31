@@ -31,6 +31,15 @@ export class UsuarioService {
     return this.usuarioRepository.update(id, updateUsuarioDto);
   }
 
+  async updateTokenByEmail(email: string, token: string): Promise<void> {
+    await this.usuarioRepository
+      .createQueryBuilder()
+      .update(Usuario)
+      .set({ token_notificacion: token })
+      .where("email = :email", { email: email })
+      .execute();
+  }
+
   remove(id: number) {
     return this.usuarioRepository.delete(id);
   }

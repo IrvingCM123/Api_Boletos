@@ -43,6 +43,7 @@ export class ViajeService {
     @InjectRepository(CatalogoDestino)
     private catalogoDestinoRepository: Repository<CatalogoDestino>,
     private readonly connection: Connection,
+    private detalleViajeService: DetalleViajeService,
   ) {}
 
   async create(createViajeDto: CreateViajeDto, user: User_Interface) {
@@ -74,8 +75,8 @@ export class ViajeService {
     }
 
     const crear_detalle_viaje = {
-      ID_Origen: createViajeDto.ID_Origen,
-      ID_Destino: createViajeDto.ID_Destino,
+      origen: createViajeDto.ID_Origen,
+      destino: createViajeDto.ID_Destino,
       fecha_salida: createViajeDto.fecha_salida,
       fecha_llegada: createViajeDto.fecha_llegada,
       precio: createViajeDto.precio,
@@ -101,8 +102,6 @@ export class ViajeService {
       if (detalle_viaje == null || detalle_viaje == undefined) {
         await queryRunner.rollbackTransaction();
       }
-
-      console.log("1");
 
       // Crear el viaje
       viaje = {
@@ -311,7 +310,12 @@ export class ViajeService {
     await queryRunner.startTransaction();
   
     try {
-      const viaje = await this.viajeRepository.findOneById(id);
+
+      let viaje = await this.viajeRepository
+      .createQueryBuilder('viaje')
+      .leftJoinAndSelect('viaje.ID_Detalle_Viaje', 'detalle_viaje')
+      .where('viaje.ID_Viaje = :ID_Viaje', { ID_Viaje: id })
+      .getOne();
 
       if (!viaje) {
         await queryRunner.rollbackTransaction();
@@ -319,11 +323,15 @@ export class ViajeService {
       }
   
       const detalleViaje = await viaje.ID_Detalle_Viaje;
+
+      const viaje_ID = await this.viajeRepository.findOne({ 
+        where: { ID_Viaje: viaje.ID_Viaje }
+      });
+
+      await this.viajeRepository.delete(viaje_ID);
   
-      await this.viajeRepository.remove(viaje);
-  
-      await this.detalleViajeRepository.remove(detalleViaje);
-  
+      await this.detalleViajeService.remove(detalleViaje.id_detalle_viaje, user);
+
       await queryRunner.commitTransaction();
   
       return Exito_Viaje.VIAJE_ELIMINADO;

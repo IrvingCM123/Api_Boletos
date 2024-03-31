@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { DetalleViaje } from 'src/resource/viaje/detalle_viaje/entities/detalle_viaje.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class CatalogoDestino {
@@ -17,6 +18,12 @@ export class CatalogoDestino {
 
     @Column()
     coordenadas: string;
+
+    @OneToMany(() => DetalleViaje, (destinos) => destinos.origen)
+    origen: DetalleViaje[];
+
+    @OneToMany(() => DetalleViaje, (destinos) => destinos.destino)
+    destino: DetalleViaje[];
 
 }
 
