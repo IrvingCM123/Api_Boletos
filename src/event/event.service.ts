@@ -113,7 +113,8 @@ export class EventService {
       let boletos_array = [];
 
       for (let i = 0; i < boletos.length; i++) {
-        boletos_array.push(boletos[i].id_usuario.id_usuario);
+        console.log(boletos[i].id_usuario);
+        boletos_array.push(boletos[i].id_usuario.token_notificacion);
       }
       console.log(boletos_array, 'boletos');
       return boletos_array;
