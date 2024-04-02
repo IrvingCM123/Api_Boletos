@@ -18,13 +18,16 @@ import {
 } from 'src/common/helpers/Confirmaciones.service';
 
 import { DetalleViaje } from '../detalle_viaje/entities/detalle_viaje.entity';
-import { DetalleVehiculo } from '../../transportes/detalle_vehiculos/entities/detalle_vehiculo.entity';
-import { CatalogoDestino } from 'src/resource/catalogos/catalogo_destinos/entities/catalogo_destino.entity';
 
 import { DetalleViajeService } from '../detalle_viaje/detalle_viaje.service';
-import { Drivers_Validation } from '../validaciones/conductor_validar.service';
-import { Vehicles_Validations } from '../validaciones/vehicle_validator.service';
-import { Destination_Validation } from '../validaciones/destination_validator.service';
+import { Drivers_Validation } from '../../../common/validation/conductor_validar.service';
+import { Vehicles_Validations } from '../../../common/validation/vehicle_validator.service';
+import { Destination_Validation } from '../../../common/validation/destination_validator.service';
+
+import { Crear_Viaje } from '../validaciones/object/travel.object';
+import { Crear_Detalle_Viaje } from '../validaciones/object/detail_travel.object';
+import { QuerysService } from 'src/common/sql/Querys.service';
+
 @Injectable()
 export class ViajeService {
   constructor(
@@ -35,6 +38,7 @@ export class ViajeService {
     private driver_validator: Drivers_Validation,
     private vehicle_validator: Vehicles_Validations,
     private destination_validator: Destination_Validation,
+    private querysService: QuerysService,
   ) {}
 
   async create(createViajeDto: CreateViajeDto, user: User_Interface) {
@@ -46,45 +50,21 @@ export class ViajeService {
 
     await this.destination_validator.Destination_Valitation(createViajeDto.ID_Origen, createViajeDto.ID_Destino);
 
-    const crear_detalle_viaje = {
-      origen: createViajeDto.ID_Origen,
-      destino: createViajeDto.ID_Destino,
-      fecha_salida: createViajeDto.fecha_salida,
-      fecha_llegada: createViajeDto.fecha_llegada,
-      precio: createViajeDto.precio,
-      hora_salida: createViajeDto.hora_salida,
-      hora_llegada: createViajeDto.hora_llegada,
-    };
+    let crear_detalle_viaje = await Crear_Detalle_Viaje(createViajeDto);
 
-    let detalle_viaje: any;
-    let viaje: any;
-
-    // Comenzar una transacción
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
     try {
       // Crear el detalle del viaje
-      detalle_viaje = await queryRunner.manager.save(
-        DetalleViaje,
-        crear_detalle_viaje,
-      );
+      let detalle_viaje: any = await queryRunner.manager.save( DetalleViaje, crear_detalle_viaje);
 
       if (detalle_viaje == null || detalle_viaje == undefined) {
         await queryRunner.rollbackTransaction();
       }
 
-      // Crear el viaje
-      viaje = {
-        ID_Detalle_Viaje: detalle_viaje.id_detalle_viaje,
-        ID_Conductor: createViajeDto.ID_Conductor,
-        ID_Detalle_Vehiculo: createViajeDto.ID_Detalle_Vehiculo,
-        Status: createViajeDto.Status,
-        Numero_Servicio: createViajeDto.Numero_Servicio,
-        Asientos_Disponibles: createViajeDto.Asientos_Disponibles,
-        Asientos_Ocupados: createViajeDto.Asientos_Ocupados,
-      };
+      let viaje = await Crear_Viaje(createViajeDto, detalle_viaje.id_detalle_viaje);
 
       await queryRunner.manager.save(Viaje, viaje);
 
@@ -104,24 +84,13 @@ export class ViajeService {
 
   async findAll(user: User_Interface) {
     validateOwnershipAdmin(user);
-
-    let viajesConDetalle: any = await this.viajeRepository
-      .createQueryBuilder('viaje')
-      .leftJoinAndSelect('viaje.ID_Detalle_Viaje', 'detalle_viaje')
-      .getMany();
-
-    return viajesConDetalle;
+    return await this.querysService.Viaje_DetalleViaje_WithoutID();
   }
 
   async findOne(id: number, user: User_Interface) {
     validateOwnershipAdmin(user);
-
     try {
-      return await this.viajeRepository
-        .createQueryBuilder('viaje')
-        .leftJoinAndSelect('viaje.ID_Detalle_Viaje', 'detalle_viaje')
-        .where('viaje.ID_Viaje = :id', { id })
-        .getMany();
+      return await this.querysService.Viaje_DetalleViaje_WithID(id);
     } catch (error) {
       throw new Error(Errores_Viaje.TRAVEL_NOT_FOUND);
     }
@@ -137,44 +106,18 @@ export class ViajeService {
   
     await this.destination_validator.Destination_Valitation(updateViajeDto.ID_Origen, updateViajeDto.ID_Destino );
 
-    const crear_detalle_viaje = {
-      ID_Origen: updateViajeDto.ID_Origen,
-      ID_Destino: updateViajeDto.ID_Destino,
-      fecha_salida: updateViajeDto.fecha_salida,
-      fecha_llegada: updateViajeDto.fecha_llegada,
-      precio: updateViajeDto.precio,
-      hora_salida: updateViajeDto.hora_salida,
-      hora_llegada: updateViajeDto.hora_llegada,
-    };
-
-    let detalle_viaje: any;
-    let viaje: any;
+    const crear_detalle_viaje = await Crear_Detalle_Viaje(updateViajeDto);
 
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
     try {
-      detalle_viaje = await queryRunner.manager.update(
-        DetalleViaje,
-        id,
-        crear_detalle_viaje,
-      );
+      let detalle_viaje: any = await queryRunner.manager.update(DetalleViaje,id,crear_detalle_viaje);
 
-      if (detalle_viaje.message !== Exito_Detalles_Viaje.DETALLE_VIAJE_CREADO) {
-        await queryRunner.rollbackTransaction();
-        return Errores_Detalles_Viaje.DETAIL_NOT_CREATED;
-      }
+      await queryRunner.rollbackTransaction();
 
-      viaje = {
-        ID_Detalle_Viaje: detalle_viaje.result.id_detalle_viaje,
-        ID_Conductor: updateViajeDto.ID_Conductor,
-        ID_Detalle_Vehiculo: updateViajeDto.ID_Detalle_Vehiculo,
-        Status: updateViajeDto.Status,
-        Numero_Servicio: updateViajeDto.Numero_Servicio,
-        Asientos_Disponibles: updateViajeDto.Asientos_Disponibles,
-        Asientos_Ocupados: updateViajeDto.Asientos_Ocupados,
-      };
+      let viaje = await Crear_Viaje(updateViajeDto, detalle_viaje.id_detalle_viaje);
 
       await queryRunner.manager.update(Viaje, id, viaje);
 
@@ -191,19 +134,13 @@ export class ViajeService {
 
   async remove(id: number, user: User_Interface) {
     validateOwnershipAdmin(user);
-  
-    // Comenzar una transacción
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
   
     try {
 
-      let viaje = await this.viajeRepository
-      .createQueryBuilder('viaje')
-      .leftJoinAndSelect('viaje.ID_Detalle_Viaje', 'detalle_viaje')
-      .where('viaje.ID_Viaje = :ID_Viaje', { ID_Viaje: id })
-      .getOne();
+      let viaje: any = await this.querysService.Viaje_DetalleViaje_WithID(id);
 
       if (!viaje) {
         await queryRunner.rollbackTransaction();

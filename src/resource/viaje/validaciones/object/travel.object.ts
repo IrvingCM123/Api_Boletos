@@ -1,18 +1,25 @@
 interface Viaje {
-    ID_Detalle_Viaje: number,
-    ID_Conductor: number,
-    ID_Detalle_Vehiculo: number,
-    Status: string,
-    Numero_Servicio: string,
-    Asientos_Disponibles: number,
-    Asientos_Ocupados: number,
+    ID_Conductor: any;
+    ID_Detalle_Vehiculo: any;
+    Status: string;
+    Numero_Servicio: string;
+    Asientos_Disponibles: number;
+    Asientos_Ocupados: number;
+    ID_Origen: number;
+    ID_Destino: number;
+    fecha_salida: string;
+    fecha_llegada: string;
+    precio: number;
+    hora_salida: string;
+    hora_llegada: string;
 }
 
 export async function Crear_Viaje (
-    datos: Viaje
+    datos: Viaje,
+    ID_Detalle_Viaje: any
 ) {
     const viaje = {
-        ID_Detalle_Viaje: datos.ID_Detalle_Viaje,
+        ID_Detalle_Viaje: ID_Detalle_Viaje,
         ID_Conductor: datos.ID_Conductor,
         ID_Detalle_Vehiculo: datos.ID_Detalle_Vehiculo,
         Status: datos.Status,

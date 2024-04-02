@@ -2,11 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { Connection, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Viaje } from '../viaje/entities/viaje.entity';
+import { Viaje } from '../../resource/viaje/viaje/entities/viaje.entity';
 
-import {
-  Errores_Conducores,
-} from 'src/common/helpers/Errores.service';
+import {Errores_Conducores} from 'src/common/helpers/Errores.service';
 
 import { Conductore } from 'src/resource/conductores/entities/conductore.entity';
 @Injectable()

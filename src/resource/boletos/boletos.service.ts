@@ -13,17 +13,12 @@ import {
   Errores_USUARIO,
   Errores_Viaje,
 } from 'src/common/helpers/Errores.service';
-import {
-  Exito_Boletos,
-  Exito_Usuarios,
-  Exito_Viaje,
-} from 'src/common/helpers/Confirmaciones.service';
+import { Exito_Boletos} from 'src/common/helpers/Confirmaciones.service';
 
 import { Usuario } from 'src/resource/usuario/entities/usuario.entity';
 import { Viaje } from 'src/resource/viaje/viaje/entities/viaje.entity';
 import { InformacionBoleto } from 'src/resource/boletos_recursos/informacion_boleto/entities/informacion_boleto.entity';
 import { InformacionBoletoService } from '../boletos_recursos/informacion_boleto/informacion_boleto.service';
-import { DetalleViaje } from '../viaje/detalle_viaje/entities/detalle_viaje.entity';
 import { CatalogoDestino } from '../catalogos/catalogo_destinos/entities/catalogo_destino.entity';
 import { Cuenta } from '../cuentas/entities/cuenta.entity';
 @Injectable()

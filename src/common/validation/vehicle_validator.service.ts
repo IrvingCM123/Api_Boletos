@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Connection, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Viaje } from '../viaje/entities/viaje.entity';
+import { Viaje } from '../../resource/viaje/viaje/entities/viaje.entity';
 
 import {
     Errores_Vehiculos,

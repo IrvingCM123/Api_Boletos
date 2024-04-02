@@ -6,7 +6,7 @@ import {
     Errores_Destinos,
 } from 'src/common/helpers/Errores.service';
 
-import { CatalogoDestino } from '../../catalogos/catalogo_destinos/entities/catalogo_destino.entity';
+import { CatalogoDestino } from '../../resource/catalogos/catalogo_destinos/entities/catalogo_destino.entity';
 @Injectable()
 export class Destination_Validation {
     constructor(
