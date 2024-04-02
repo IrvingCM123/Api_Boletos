@@ -24,7 +24,10 @@ export class Usuario {
     @Column({ type: 'enum', default: Rol.ADMIN, enum: Rol })
     rol: Rol;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, unique: true})
     token_notificacion: string;
+
+    @OneToMany(() => Boleto, (boleto) => boleto.id_usuario)
+    boletos: Boleto[];
 
 }

@@ -1,65 +1,127 @@
-export function boleto_template(Datos: any) {
-  const html_boleto = `<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boleto de Pasaje</title>
-    <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f0f0f0;
-    }
-    
-    .ticket {
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        width: 300px;
-    }
-    
-    .ticket-header {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    
-    .ticket-header h1 {
-        margin: 0;
-        color: #333;
-    }
-    
-    .ticket-info {
-        color: #333;
-    }
-    
-    .ticket-info p {
-        margin: 5px 0;
-    }
-    </style>
-</head>
-<body>
-    <div class="ticket">
-        <div class="ticket-header">
-            <h1>Boleto de Pasaje</h1>
-        </div>
-        <div class="ticket-info">
-            <p><strong>Nombre:</strong> ${Datos.Nombre} </p>
-            <p><strong>Destino:</strong> ${Datos.Destino} </p>
-            <p><strong>Fecha:</strong> 29 de marzo de 2024</p>
-            <p><strong>Hora:</strong> 10:00 AM</p>
-            <p><strong>Asiento:</strong> A12</p>
-        </div>
-    </div>
-</body>
-</html>
-`;
+export function boleto_template(Datos: any, qrData) {
+    const html_boleto = `
+    <TYPE html>
+    <html lang="en">
+    <head>
+        <title>Yellow Pass</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 25px;
+                padding: 20px;
+                margin-top: 0;
+            }
+            .container {
+                width: 200px;
+                height: 500px;     
+                max-width: 300px;    
 
-  return html_boleto;
+            }
+            .header {
+                text-align: center;
+                color: #f1c40f;
+                font-size: 12px;
+                margin:0;
+            }
+            .content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .left, .right{
+                padding: 10px;
+                box-sizing: border-box;
+                border-radius: 10px;
+                height: 250px;
+                width: 260px;
+                box-shadow: 10px 0px 15px -5px rgba(0, 0, 0, 0.1), -10px 0px 15px -5px rgba(0, 0, 0, 0.1);
+            }
+            .rigth{
+                background: linear-gradient(to bottom right, #FFD700, #FFA500);
+            }
+            .left {
+                background-color: #E9E9E9;
+                padding: 30px;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                grid-gap:10px; 
+                background: linear-gradient(to bottom left, #EBEBEB, #fff);
+            }
+
+            .right {
+                background-color: #FFCC00;
+            }
+            p {
+                font-weight: 600;
+                font-size: 10px;
+                color: #979797;
+            }
+            h3 {
+                color: #ADADAD;
+                font-size: 10px;
+            }
+            .qr-code img{
+                width: 130px;
+                border-radius: 15px;
+                margin: 0 55px;
+            }
+            .qr-code p{
+                font-size: 9px;
+                color: #ffff;
+                margin: 15px 35px;
+            }
+            .asiento{
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+
+            <div class="content">
+             <div class="right">
+                         <div class="header">
+                <h2 style="background-color: transparent; color: #Ffff; font-weight: 800; ">Yellow Pass</h1>
+            </div>
+                    <div class="qr-code">
+                           <img src="${qrData}" alt="QR Code">
+                        <p>Presente este QR al abordar el autobús</p>
+                    </div>
+                </div>
+                <div class="left">
+                    <div style="position: absolute; top: 280px;">
+                        <h3 >Nombre: </h3>
+                        <p >${Datos.nombre}</p>
+                        <hr style="width: 200px; position: absolute; top: 40px;"> 
+                        <hr style="width: 200px; position: absolute; top: 170px;"> 
+                    </div>
+                    <div class="info" style="padding-top: 25px;" >
+                        <h3>Hora:</h3>
+                        <p>${Datos.hora}</p>
+                        <h3>Origen: </h3>
+                        <p>${Datos.origen}</p>
+                        <h3>Precio:</h3>
+                        <p>${Datos.totalPago}</p>
+                        <h3 class="asiento">Número de Asiento: </h3>
+                        <p>${Datos.noAsiento}</p>
+                    </div>
+                    <div class="info" style="padding-top: 25px;" >
+                        <h3>Fecha: </h3>
+                        <p>${Datos.fechaSalida}</p>
+                        <h3>Destino:</h3>
+                        <p>${Datos.destino}</p>
+                        <h3>Puerta:</h3>
+                        <p>${Datos.puertaEnbarque}</p>
+                        <h3 class="asiento">Tipo de Asiento:</h3>
+                        <p>${Datos.categoria}</p>
+                    </div>
+                </div>  
+            </div>
+            </div>
+        </div>
+    </body>
+    </html>
+       `;
+
+    return html_boleto;
 }

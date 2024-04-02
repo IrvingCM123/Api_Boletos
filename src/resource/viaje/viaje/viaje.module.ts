@@ -12,8 +12,10 @@ import { DetalleViajeModule } from '../detalle_viaje/detalle_viaje.module';
 import { ConductoresModule } from '../../conductores/conductores.module';
 import { CatalogoDestino } from 'src/resource/catalogos/catalogo_destinos/entities/catalogo_destino.entity';
 import { CatalogoDestinosModule } from 'src/resource/catalogos/catalogo_destinos/catalogo_destinos.module';
+import { ValidationModule } from 'src/common/validation/validation.module';
+import { QuerysModule } from 'src/common/sql/sql.module';
 @Module({
-  imports: [TypeOrmModule.forFeature([Viaje, DetalleVehiculo, Conductore, DetalleViaje, CatalogoDestino ]), DetalleViajeModule, ConductoresModule, DetalleVehiculosModule, CatalogoDestinosModule ],
+  imports: [TypeOrmModule.forFeature([Viaje, DetalleVehiculo, Conductore, DetalleViaje, CatalogoDestino ]), DetalleViajeModule, ConductoresModule, DetalleVehiculosModule, CatalogoDestinosModule, ValidationModule, QuerysModule ],
   controllers: [ViajeController],
   providers: [ViajeService],
   exports: [ViajeService]

@@ -7,21 +7,23 @@ import * as firebaseAdminConfig from '../Archive/firebase-admin.json';
 import axios from 'axios';
 
 import { User_Interface } from 'src/common/interfaces/user.interface';
-import { Message_Interface } from 'src/common/interfaces/message.interface';
 
 import { Rol } from 'src/common/enums/rol.enum';
 import { Errores_Roles } from 'src/common/helpers/Errores.service';
 import { Errores_Messages } from 'src/common/helpers/Errores.service';
+import { validateOwnershipAdmin } from 'src/Guard/validateOwnerShip.guard';
 
 @Injectable()
 export class MessagesService {
+
   private readonly MESSAGING_SCOPE =
     'https://www.googleapis.com/auth/firebase.messaging';
 
   private readonly SCOPES = [this.MESSAGING_SCOPE];
 
   async getAccessToken(user: User_Interface): Promise<string> {
-    this.validateOwnership(user);
+
+    validateOwnershipAdmin(user);
 
     const firebase_config = firebaseAdminConfig;
 
@@ -46,7 +48,7 @@ export class MessagesService {
   }
 
   async sendNotification(datos: any, tokens: any, user: User_Interface) {
-    this.validateOwnership(user);
+    validateOwnershipAdmin(user);
 
     let informacion_mensaje = datos.datos;
 
@@ -104,11 +106,5 @@ export class MessagesService {
       }
     }
   }
-  private validateOwnership(user: User_Interface) {
-    if (user.role !== Rol.ADMIN) {
-      throw new UnauthorizedException(Errores_Roles.ROLE_UNAUTHORIZED);
-    } else {
-      return true;
-    }
-  }
+  
 }

@@ -23,8 +23,8 @@ export class EventController {
   constructor(private readonly eventService: EventService) {}
 
   @Post()
-  create(@Body() createEventDto: CreateEventDto, @ActiveUser() user: User_Interface){
-    return this.eventService.create(createEventDto, user);
+  create(@Body() data: any, @ActiveUser() user: User_Interface){
+    return this.eventService.create(data, user);
   }
 
   @Get()

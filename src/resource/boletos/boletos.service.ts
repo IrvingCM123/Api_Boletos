@@ -13,17 +13,12 @@ import {
   Errores_USUARIO,
   Errores_Viaje,
 } from 'src/common/helpers/Errores.service';
-import {
-  Exito_Boletos,
-  Exito_Usuarios,
-  Exito_Viaje,
-} from 'src/common/helpers/Confirmaciones.service';
+import { Exito_Boletos} from 'src/common/helpers/Confirmaciones.service';
 
 import { Usuario } from 'src/resource/usuario/entities/usuario.entity';
 import { Viaje } from 'src/resource/viaje/viaje/entities/viaje.entity';
 import { InformacionBoleto } from 'src/resource/boletos_recursos/informacion_boleto/entities/informacion_boleto.entity';
 import { InformacionBoletoService } from '../boletos_recursos/informacion_boleto/informacion_boleto.service';
-import { DetalleViaje } from '../viaje/detalle_viaje/entities/detalle_viaje.entity';
 import { CatalogoDestino } from '../catalogos/catalogo_destinos/entities/catalogo_destino.entity';
 import { Cuenta } from '../cuentas/entities/cuenta.entity';
 @Injectable()
@@ -50,9 +45,11 @@ export class BoletosService {
     let validar_usuario: any = await this.validarUsuario(
       createBoletoDto.id_usuario,
     );
+
     let id_usuario = validar_usuario.id_usuario;
 
     let validar_viaje: any = await this.validarViaje(createBoletoDto.ID_Viaje);
+
     let ID_Viaje = validar_viaje.ID_Viaje;
 
     let validar_informacion_boleto: any = await this.validarInformacionBoleto(
@@ -69,7 +66,7 @@ export class BoletosService {
         Precio: createBoletoDto.Precio,
         id_informacion_boleto: id_informacion_boleto,
         id_usuario: id_usuario,
-        ID_Viaje: ID_Viaje,
+        viajeID: ID_Viaje,
       };
 
       this.boletoRepository.save(nuevo_boleto);
@@ -98,7 +95,7 @@ export class BoletosService {
     });
 
     if (buscar_viaje == null) {
-      return Errores_Viaje.TRAVEL_NOT_FOUND;
+      throw Error (Errores_Viaje.TRAVEL_NOT_FOUND);
     } else {
       return buscar_viaje;
     }
@@ -111,7 +108,7 @@ export class BoletosService {
       });
 
     if (buscar_informacion_boleto == null) {
-      return 'Informacion no encontrada';
+      throw Error ('Informacion no encontrada');
     } else {
       return buscar_informacion_boleto;
     }
@@ -126,7 +123,7 @@ export class BoletosService {
       let informacion = await this.obtener_informacion_boletos(boletos, user);
       return informacion;
     } catch (error) {
-      return Errores_Boletos.TICKET_NOT_FOUND;
+      throw Error  (Errores_Boletos.TICKET_NOT_FOUND);
     }
   }
 
@@ -139,7 +136,7 @@ export class BoletosService {
       });
 
       if (boleto == null) {
-        return Errores_Boletos.TICKET_NOT_FOUND;
+        throw Error ( Errores_Boletos.TICKET_NOT_FOUND);
       }
 
       let boleto_array = [];
@@ -149,7 +146,7 @@ export class BoletosService {
 
       return informacion;
     } catch (error) {
-      return Errores_Boletos.TICKET_NOT_FOUND;
+      throw Error  (Errores_Boletos.TICKET_NOT_FOUND);
     }
   }
 
@@ -191,20 +188,20 @@ export class BoletosService {
 
       let detalle_viaje = viaje.ID_Detalle_Viaje;
 
-      let id_destino = parseInt(detalle_viaje.ID_Destino.toString());
+      let id_destino = parseInt(detalle_viaje.destino.toString());
 
       let destino = await this.catalogoDestinoRepository.findOne({
         where: { id_catalogo_destino: id_destino },
       });
 
-      let id_origen = parseInt(detalle_viaje.ID_Origen.toString());
+      let id_origen = parseInt(detalle_viaje.origen.toString());
 
       let origen = await this.catalogoDestinoRepository.findOne({
         where: { id_catalogo_destino: id_origen },
       });
 
       boletoInfo.viaje = {
-        ID_Viaje: viaje.ID_Viaje,
+        viajeID: viaje.ID_Viaje,
         Status: viaje.Status,
         Numero_Viaje: viaje.Numero_Servicio,
         Detalle_Viaje: {

@@ -100,5 +100,5 @@ export class CuentasService {
   remove(id: number) {
     return this.cuentaRepository.delete(id);
   }
-  y;
+  
 }

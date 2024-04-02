@@ -1,9 +1,12 @@
+import { Viaje } from 'src/resource/viaje/viaje/entities/viaje.entity';
 import { CatalogoVehiculo } from './../../../catalogos/catalogo_vehiculos/entities/catalogo_vehiculo.entity';
 import {
         Column,
         Entity,
         JoinColumn,
         ManyToMany,
+        ManyToOne,
+        OneToMany,
         OneToOne,
         PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -22,10 +25,12 @@ export class DetalleVehiculo {
         @Column({ nullable: false })
         numero_placas: string;
 
-        @ManyToMany(() => CatalogoVehiculo)
-        @JoinColumn({ name: 'id_catalogo_vehiculo' })
-        id_catalogo_vehiculo: CatalogoVehiculo;
+        @ManyToOne(() => CatalogoVehiculo, (tipo) => tipo.vehiculo)
+        id_catalogo_vehiculo: number;
 
         @Column({ nullable: false })
         capacidad_asientos: number;
+
+        @OneToMany(() => Viaje, (viaje) => viaje.ID_Detalle_Vehiculo)
+        viajes: Viaje[];
 }
