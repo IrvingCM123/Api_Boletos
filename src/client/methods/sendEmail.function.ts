@@ -4,9 +4,9 @@ import { convert_Image } from './image.function';
 import { boleto_template } from '../template/boleto.template';
 import { create_QR } from './qr.function';
 import * as dotenv from 'dotenv';
+import { convertToWallet } from './wallet.function';
 
 dotenv.config();
-
 
 export async function enviarEmail(Data: any): Promise<string> {
     try {
@@ -27,9 +27,11 @@ export async function enviarEmail(Data: any): Promise<string> {
 
       let imagen_boleto_path = await convert_Image(Datos);
 
-      console.log('imagen_boleto_path', imagen_boleto_path);
+      let url_wallet = await convertToWallet(Datos);
 
-      const html_template = email_template(Datos, imagen_boleto_path);
+      console.log('url_wallet', url_wallet);
+
+      const html_template = email_template(Datos, imagen_boleto_path, url_wallet);
 
       const msg = {
         to: Destinatario,

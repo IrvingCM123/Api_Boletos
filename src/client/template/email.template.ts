@@ -1,4 +1,4 @@
-export function email_template(Datos: any, url_imagen: string) {
+export function email_template(Datos: any, url_imagen: string, ulr_wallet: string) {
     const html_boletos = `
     <!DOCTYPE html>
     <html>
@@ -63,6 +63,9 @@ export function email_template(Datos: any, url_imagen: string) {
           </div>
           <div class="download-link">
             <p>Por favor, haga clic en el siguiente enlace para descargar su boleto:  <a href="${url_imagen}" download="Boleto.jpg">Enlace de descarga</a></a></p>
+          </div>
+          <div class="download-link">
+            <p>Wallet  <a href="${ulr_wallet}" download="Boleto.jpg">Enlace de descarga</a></a></p>
           </div>
           <div class="info">
             <p>Si tiene alguna pregunta o necesita asistencia adicional, no dude en ponerse en contacto con nosotros. ¡Estamos aquí para ayudarle!</p>
