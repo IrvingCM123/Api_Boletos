@@ -1,7 +1,12 @@
-import sgMail from '@sendgrid/mail';
+import * as SendGrid from '@sendgrid/mail';
 import { email_template } from '../template/email.template';
 import { convert_Image } from './image.function';
 import { boleto_template } from '../template/boleto.template';
+import { create_QR } from './qr.function';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
 
 export async function enviarEmail(Data: any): Promise<string> {
     try {
@@ -14,14 +19,15 @@ export async function enviarEmail(Data: any): Promise<string> {
       for (let key in Datos) {
         datos_qr[key] = Datos[key];
       }
-      
-      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-      let url_QR_Image = await this.convertToImage(datos_qr);
+      const dotenvConfig = require('dotenv').config();
+      const sendgridApiKey = dotenvConfig.parsed.SENDGRID_API_KEY;
+
+      SendGrid.setApiKey('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');
 
       let imagen_boleto_path = await convert_Image(Datos);
 
-      let template_Boleto = boleto_template(Datos, url_QR_Image);
+      console.log('imagen_boleto_path', imagen_boleto_path);
 
       const html_template = email_template(Datos, imagen_boleto_path);
 
@@ -32,7 +38,7 @@ export async function enviarEmail(Data: any): Promise<string> {
         html: html_template,
       };
 
-      await sgMail.send(msg);
+      await SendGrid.send(msg);
       return 'Correo electrónico enviado correctamente';
     } catch (error) {
       throw new Error('Error al enviar el correo electrónico');

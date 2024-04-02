@@ -9,9 +9,9 @@ export async function convert_Image(Data: any) {
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
       };
   
-      const qrDataURL = await create_QR(Data);
+      let base64_QR_Image = await create_QR(Data);
   
-      const htmlContent = boleto_template(Data, qrDataURL);
+      const htmlContent = boleto_template(Data, base64_QR_Image);
   
       const browser = await puppeteer.launch(launchOptions);
       const page = await browser.newPage();

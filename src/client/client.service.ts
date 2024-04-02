@@ -15,7 +15,7 @@ export class ClientService {
 
   async send_Email(Data: any, user:User_Interface) {
     validateOwnershipAdmin(user);
-
+    console.log('Data', Data);
     await enviarEmail(Data);
   }
 
