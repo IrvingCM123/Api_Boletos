@@ -1,22 +1,25 @@
 import { create_QR } from './qr.function';
 import { GoogleAuth } from 'google-auth-library';
 import * as jwt from 'jsonwebtoken';
+import * as google_credenciales from '../../Archive/google-credentiales.json';
 
 export async function convertToWallet(Datos: any) {
     try {
+
+        let credenciales_google = google_credenciales
+console.log(credenciales_google);
         const issuerId = '110523168706375958753';
         const classId = `${issuerId}.codelab_class`;
         const baseUrl = 'https://walletobjects.googleapis.com/walletobjects/v1';
-        const dotenvConfig = require('dotenv').config();
-        const credentials = dotenvConfig.parsed.GOOGLE_APPLICATION_CREDENTIALS;
         const httpClient = new GoogleAuth({
-            credentials: credentials,
+            credentials: credenciales_google,
             scopes: 'https://www.googleapis.com/auth/wallet_object.issuer'
         });
 
         const objectSuffix = `${Datos.Email.replace(/[^\w.-]/g, '_')}`;
-        const objectId = `${issuerId}.${objectSuffix}`;
-
+        console.log('objectSuffix: ', objectSuffix);
+        const objectId = `${issuerId}.${objectSuffix}` ;
+        console.log('objectId: ', objectId);
         const genericObject = {
             id: objectId,
             classId: classId,
@@ -68,9 +71,11 @@ export async function convertToWallet(Datos: any) {
             ]
         };
 
+        console.log('Generic Object: ', genericObject);
+
         // Crear el JWT firmado y el enlace
         const claims = {
-            iss: credentials.client_email,
+            iss: credenciales_google.client_email,
             aud: 'google',
             origins: [],
             typ: 'savetowallet',
@@ -81,8 +86,11 @@ export async function convertToWallet(Datos: any) {
             }
         };
 
-        const token = jwt.sign(claims, 'yourPrivateKey', { algorithm: 'RS256' });
+        const token = jwt.sign(claims, credenciales_google.private_key, { algorithm:'RS256'});
+         console.log('Token: ', token);
         const saveUrl = `https://pay.google.com/gp/v/save/${token}`;
+
+        console.log('Save URL: ', saveUrl);
 
         return saveUrl;
     } catch (error) {

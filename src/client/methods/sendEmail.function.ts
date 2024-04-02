@@ -27,11 +27,11 @@ export async function enviarEmail(Data: any): Promise<string> {
 
       let imagen_boleto_path = await convert_Image(Datos);
 
-      //let url_wallet = await convertToWallet(Datos);
-//
-      //console.log('url_wallet', url_wallet);
+      let url_wallet = await convertToWallet(Datos);
 
-      const html_template = email_template(Datos, imagen_boleto_path, "2");
+      console.log('url_wallet', url_wallet);
+
+      const html_template = email_template(Datos, imagen_boleto_path, url_wallet);
 
       const msg = {
         to: Destinatario,
