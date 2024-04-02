@@ -16,13 +16,13 @@ export async function convert_Image(Data: any) {
       const browser = await puppeteer.launch(launchOptions);
       const page = await browser.newPage();
 
-      await page.setViewport({ width: 800, height: 800, deviceScaleFactor: 1});
+      await page.setViewport({ width: 300, height: 560, deviceScaleFactor: 1});
 
       await page.setContent(htmlContent);
   
       const screenshotBuffer = await page.screenshot({
         type: 'jpeg',
-        quality: 90,
+        quality: 100,
       });
   
       const screenshotBase64 = screenshotBuffer.toString('base64');

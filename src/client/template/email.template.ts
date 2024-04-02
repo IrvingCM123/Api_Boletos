@@ -83,10 +83,10 @@ export function email_template(Datos: any, url_imagen: string, ulr_wallet: strin
               </ol>
             <p>Descargar la aplicación:</p>
               <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.walletnfcrel&pli=1">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Google_Play_2022_logo.svg/512px-Google_Play_2022_logo.svg.png" alt="Play Store" width="150px">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Google_Play_2022_logo.svg/512px-Google_Play_2022_logo.svg.png" alt="Play Store" width="130px">
               </a>
               <a href="https://apps.apple.com/mx/app/apple-wallet/id1160481993">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Available_on_the_App_Store_%28black%29.png" alt="App Store" width="150px">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Available_on_the_App_Store_%28black%29.png" alt="App Store" width="130px">
               </a>
           </div>
         </div>

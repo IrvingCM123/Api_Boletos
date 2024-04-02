@@ -7,7 +7,8 @@ export async function convertToWallet(Datos: any) {
         const issuerId = '110523168706375958753';
         const classId = `${issuerId}.codelab_class`;
         const baseUrl = 'https://walletobjects.googleapis.com/walletobjects/v1';
-        const credentials = require(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+        const dotenvConfig = require('dotenv').config();
+        const credentials = dotenvConfig.parsed.GOOGLE_APPLICATION_CREDENTIALS;
         const httpClient = new GoogleAuth({
             credentials: credentials,
             scopes: 'https://www.googleapis.com/auth/wallet_object.issuer'
