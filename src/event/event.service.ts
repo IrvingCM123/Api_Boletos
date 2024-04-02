@@ -44,7 +44,6 @@ export class EventService {
     validateOwnershipAdmin(user);
 
     let licencia_conductor = data.licencia_conductor;
-    console.log(data)
 
     try {
       const conductor = await this.ValidarConductor(licencia_conductor);

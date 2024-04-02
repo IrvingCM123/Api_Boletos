@@ -3,8 +3,6 @@ import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
 import * as puppeteer from 'puppeteer';
-import axios from 'axios';
-import * as fs from 'fs';
 import { boleto_template } from './template/boleto.template';
 import * as request from 'request';
 import { User_Interface } from 'src/common/interfaces/user.interface';
