@@ -17,16 +17,5 @@ export class ClientController {
     return this.clientService.send_Email(Data, user);
   }
 
-  @Post('boleto') 
-  async downloadBoleto(@Body() url: any, @Res() res: Response): Promise<void> {
-    try {
-      const urlImagen: string = url.url;
-      const imageData = await this.clientService.Descargar_Boletos(urlImagen);
-      res.set('Content-Type', 'image/jpeg');
-      res.send(imageData);
-    } catch (error) {
-      res.status(500).send({ message: 'Error al descargar la imagen' });
-    }
-  }
 
 }
