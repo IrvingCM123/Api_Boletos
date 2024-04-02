@@ -6,44 +6,17 @@ import { boleto_template } from './template/boleto.template';
 import * as request from 'request';
 import { User_Interface } from 'src/common/interfaces/user.interface';
 import { validateOwnershipAdmin } from 'src/Guard/validateOwnerShip.guard';
-
+import { enviarEmail } from './methods/sendEmail.function';
 @Injectable()
 export class ClientService {
   constructor() {
     dotenv.config();
   }
 
-  async send_Email(user:User_Interface) {
+  async send_Email(Data: any, user:User_Interface) {
     validateOwnershipAdmin(user);
 
-
-  }
-
-  async convertToImage(Datos: string) {
-    let launchOptions = {
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    };
-
-    const htmlContent = boleto_template(Datos);
-
-    const browser = await puppeteer.launch(launchOptions);
-    const page = await browser.newPage();
-    await page.setContent(htmlContent);
-
-    const screenshotBuffer = await page.screenshot({
-      type: 'jpeg',
-      quality: 90,
-    });
-
-    const screenshotBase64 = screenshotBuffer.toString('base64');
-
-    await browser.close();
-
-    let file_name = 'boleto.jpg';
-    let image_path = await this.uploadImage(screenshotBase64, file_name);
-
-    return image_path;
+    await enviarEmail(Data);
   }
 
   async Descargar_Boletos(urlImagen: string): Promise<Buffer> {

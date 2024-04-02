@@ -1,6 +1,7 @@
 import { create_QR } from "./qr.function";
 import { boleto_template } from "../template/boleto.template";
 import puppeteer from "puppeteer";
+import { uploadImage_Firebase } from "./save_image.function";
 
 export async function convert_Image(Data: any) {
     let launchOptions = {
@@ -27,9 +28,8 @@ export async function convert_Image(Data: any) {
 
       let file_name = 'boleto.jpg';
 
-      return {
-        image: screenshotBase64,
-        file_name: file_name
-      }
+      let path_urlImage = await uploadImage_Firebase(screenshotBase64, file_name);
+
+      return path_urlImage;
   
 }

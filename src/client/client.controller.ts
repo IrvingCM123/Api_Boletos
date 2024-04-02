@@ -14,7 +14,7 @@ export class ClientController {
 
   @Post('email')
   create(@Body() Data: Email_Interface, @ActiveUser() user: User_Interface) {
-    return this.clientService.enviarEmail(Data, user);
+    return this.clientService.send_Email(Data, user);
   }
 
   @Post('boleto') 
