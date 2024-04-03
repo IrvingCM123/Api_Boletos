@@ -1,4 +1,4 @@
-export function email_template(Datos: any, url_imagen: string, ulr_wallet: string) {
+export function email_template(Datos: any, url_imagen: string, url_wallet: string) {
     const html_boletos = `
     <!DOCTYPE html>
     <html>

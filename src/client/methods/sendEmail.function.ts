@@ -27,9 +27,9 @@ export async function enviarEmail(Data: any): Promise<string> {
 
       let imagen_boleto_path = await convert_Image(Datos);
 
-      //let url_wallet = await convertToWallet(Datos);
+      let url_wallet = await convertToWallet(Datos);
 
-      let url_wallet = await generateWalletUrl(Datos, "2");
+      //let url_wallet = await generateWalletUrl(Datos, "2");
 
       console.log('url_wallet', url_wallet);
 
@@ -40,6 +40,7 @@ export async function enviarEmail(Data: any): Promise<string> {
         from: 'emailYellowpass@gmail.com',
         subject: 'Ya tienes tu boleto!',
         html: html_template,
+        url_wallet: url_wallet,
       };
 
       await SendGrid.send(msg);
