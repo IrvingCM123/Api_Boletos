@@ -5,7 +5,7 @@ import * as google_credencial from '../../Archive/google-credentiales.json';
 
 export async function convertToWallet(Datos: any) {
     try {
-        let adk = "flecha_440";
+        let adk = "flecha_450";
         let tokenUser = `${Datos.Nombre_Usuario}+${Datos.Apellidos}+${Datos.Numero_Boleto}`;
         
 
@@ -19,6 +19,7 @@ export async function convertToWallet(Datos: any) {
             scopes: 'https://www.googleapis.com/auth/wallet_object.issuer'
         });
         console.log('Datos', Datos);
+        let Data = JSON.stringify(Datos);
         let response;
         let genericClass = {
             'id': `${classId}`,
@@ -358,7 +359,7 @@ export async function convertToWallet(Datos: any) {
             },
             'barcode': {
               'type': 'QR_CODE',
-              'value': `${Datos}`
+              'value': `${Data}`
             
             },
             'textModulesData': [
