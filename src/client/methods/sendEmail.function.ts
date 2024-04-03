@@ -4,8 +4,8 @@ import { convert_Image } from './image.function';
 import { boleto_template } from '../template/boleto.template';
 import { create_QR } from './qr.function';
 import * as dotenv from 'dotenv';
-import { convertToWallet } from './wallet.function';
-
+import { convertToWallet} from './wallet.function';
+import { generateWalletUrl } from './wallet/wallet_Android.function';
 dotenv.config();
 
 export async function enviarEmail(Data: any): Promise<string> {
@@ -27,11 +27,13 @@ export async function enviarEmail(Data: any): Promise<string> {
 
       let imagen_boleto_path = await convert_Image(Datos);
 
-      let url_wallet = await convertToWallet(Datos);
+      //let url_wallet = await convertToWallet(Datos);
+
+      let url_wallet = await generateWalletUrl(Datos, "2");
 
       console.log('url_wallet', url_wallet);
 
-      const html_template = email_template(Datos, imagen_boleto_path, url_wallet);
+      const html_template = email_template(Datos, imagen_boleto_path, '2');
 
       const msg = {
         to: Destinatario,
@@ -46,3 +48,7 @@ export async function enviarEmail(Data: any): Promise<string> {
       throw new Error('Error al enviar el correo electrónico');
     }
   }
+function generateWallet(Datos: any) {
+  throw new Error('Function not implemented.');
+}
+

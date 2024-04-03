@@ -7,20 +7,19 @@ export function boleto_template(Datos: any, qrData) {
         <style>
             body {
                 font-family: Arial, sans-serif;
-                margin: 25px;
+                margin: 120px;
                 padding: 20px;
-                margin-top: 0;
+                margin-top: 25;
             }
             .container {
-                width: 200px;
+                width: 540px;
                 height: 500px;     
                 max-width: 300px;    
-
             }
             .header {
                 text-align: center;
                 color: #f1c40f;
-                font-size: 12px;
+                font-size: 24px;
                 margin:0;
             }
             .content {
@@ -32,8 +31,8 @@ export function boleto_template(Datos: any, qrData) {
                 padding: 10px;
                 box-sizing: border-box;
                 border-radius: 10px;
-                height: 250px;
-                width: 260px;
+                height: 500px;
+                width: 520px;
                 box-shadow: 10px 0px 15px -5px rgba(0, 0, 0, 0.1), -10px 0px 15px -5px rgba(0, 0, 0, 0.1);
             }
             .rigth{
@@ -41,37 +40,39 @@ export function boleto_template(Datos: any, qrData) {
             }
             .left {
                 background-color: #E9E9E9;
-                padding: 30px;
+                padding: 50px;
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
-                grid-gap:10px; 
+                grid-gap:40px; 
                 background: linear-gradient(to bottom left, #EBEBEB, #fff);
             }
 
             .right {
                 background-color: #FFCC00;
             }
-            p {
-                font-weight: 600;
-                font-size: 10px;
-                color: #979797;
-            }
-            h3 {
-                color: #ADADAD;
-                font-size: 10px;
-            }
+        p {
+            font-weight: 600;
+            font-size: 20px;
+            color: #979797;
+            margin-bottom: 5px; /* Ajuste de margen inferior */
+        }
+        h3 {
+            color: #ADADAD;
+            font-size: 20px;
+            margin-top: 0; /* Ajuste de margen superior */
+        }
             .qr-code img{
-                width: 130px;
+                width: 280px;
                 border-radius: 15px;
-                margin: 0 55px;
+                margin: 0 110px;
             }
             .qr-code p{
-                font-size: 9px;
+                font-size: 18px;
                 color: #ffff;
-                margin: 15px 35px;
+                margin: 30px 70px;
             }
             .asiento{
-                margin-top: 10px;
+                margin-top: 30px;
             }
         </style>
     </head>
@@ -89,13 +90,13 @@ export function boleto_template(Datos: any, qrData) {
                     </div>
                 </div>
                 <div class="left">
-                    <div style="position: absolute; top: 280px;">
+                    <div style="position: absolute; top: 590px;">
                         <h3 >Nombre: </h3>
                         <p >${Datos.nombre}</p>
-                        <hr style="width: 200px; position: absolute; top: 40px;"> 
-                        <hr style="width: 200px; position: absolute; top: 170px;"> 
+                        <hr style="width: 430px; position: absolute; top: 70px;"> 
+                        <hr style="width: 430px; position: absolute; top: 300px;"> 
                     </div>
-                    <div class="info" style="padding-top: 25px;" >
+                    <div class="info" style="padding-top: 85px;" >
                         <h3>Hora:</h3>
                         <p>${Datos.hora}</p>
                         <h3>Origen: </h3>
@@ -105,7 +106,7 @@ export function boleto_template(Datos: any, qrData) {
                         <h3 class="asiento">Número de Asiento: </h3>
                         <p>${Datos.noAsiento}</p>
                     </div>
-                    <div class="info" style="padding-top: 25px;" >
+                    <div class="info" style="padding-top: 85px;" >
                         <h3>Fecha: </h3>
                         <p>${Datos.fechaSalida}</p>
                         <h3>Destino:</h3>
@@ -123,5 +124,5 @@ export function boleto_template(Datos: any, qrData) {
     </html>
        `;
 
-    return html_boleto;
+    return html_boleto;
 }

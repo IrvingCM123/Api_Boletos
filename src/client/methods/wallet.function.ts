@@ -2,89 +2,67 @@ import { create_QR } from './qr.function';
 import { GoogleAuth } from 'google-auth-library';
 import * as jwt from 'jsonwebtoken';
 import * as google_credenciales from '../../Archive/google-credentiales.json';
+import * as fs from 'fs';
+import { google } from 'googleapis';
+
+let credenciales_google = google_credenciales;
+const issuerId = '110523168706375958753';
+const classId = `${issuerId}.codelab_class`;
+const baseUrl = 'https://walletobjects.googleapis.com/walletobjects/v1';
+
+const auth = new google.auth.JWT(
+    credenciales_google.client_email,
+    null,
+    credenciales_google.private_key,
+    ['https://www.googleapis.com/auth/wallet_object.issuer']
+  );
+  
+  const wallet = google.walletobjects({
+    version: 'v1',
+    auth: auth
+  });
 
 export async function convertToWallet(Datos: any) {
+
+  // Área local del archivo de imagen que deseas subir
+  const imagePath = 'https://firebasestorage.googleapis.com/v0/b/guadalajara-17336.appspot.com/o/Multimedia%2F%2Fboleto.jpg?alt=media&token=c3588dae-a930-47b8-ac78-11f65ffddb44';
+
+  // Autenticación con las credenciales
+  const auth = new google.auth.JWT(
+    credenciales_google.client_email,
+    null,
+    credenciales_google.private_key,
+    ['https://www.googleapis.com/auth/wallet_object.issuer'],
+  );
+
+  // Inicializar cliente de Google Wallet
+  const wallet = google.wallet_v1;
+
     try {
 
-        let credenciales_google = google_credenciales
-        const issuerId = '110523168706375958753';
-        const classId = `${issuerId}.codelab_class`;
-        const baseUrl = 'https://walletobjects.googleapis.com/walletobjects/v1';
-        const httpClient = new GoogleAuth({
-            credentials: credenciales_google,
-            scopes: 'https://www.googleapis.com/auth/wallet_object.issuer'
-        });
-        const objectSuffix = `${Datos.Email.replace(/[^\w.-]/g, '_')}`;
-        const objectId = `${issuerId}.${objectSuffix}` ;
-        const genericObject = {
-            id: objectId,
-            classId: classId,
-            genericType: 'GENERIC_TYPE_UNSPECIFIED',
-            hexBackgroundColor: '#4285f4',
-            logo: {
-                sourceUri: {
-                    uri: 'https://storage.googleapis.com/wallet-lab-tools-codelab-artifacts-public/pass_google_logo.jpg'
-                }
-            },
-            cardTitle: {
-                defaultValue: {
-                    language: 'es-MX',
-                    value: 'Flecha Amarilla'
-                }
-            },
-            subheader: {
-                defaultValue: {
-                    language: 'es-MX',
-                    value: 'Nombre de pasajero'
-                }
-            },
-            header: {
-                defaultValue: {
-                    language: 'en',
-                    value: Datos.Nombre_Usuario
-                }
-            },
-            barcode: {
-                type: 'QR_CODE',
-                value: await create_QR(Datos)
-            },
-            heroImage: {
-                sourceUri: {
-                    uri: 'https://storage.googleapis.com/wallet-lab-tools-codelab-artifacts-public/google-io-hero-demo-only.jpg'
-                }
-            },
-            textModulesData: [
-                {
-                    header: 'POINTS',
-                    body: '1234',
-                    id: 'points'
-                },
-                {
-                    header: 'CONTACTS',
-                    body: '20',
-                    id: 'contacts'
-                }
-            ]
-        };
-        const claims = {
-            iss: credenciales_google.client_email,
-            aud: 'google',
-            origins: [],
-            typ: 'savetowallet',
-            payload: {
-                genericObjects: [
-                    genericObject
-                ]
-            }
-        };
+      // Leer la imagen del disco
+      const image = fs.readFileSync(imagePath);
+      const classId = `${issuerId}.codelab_class`;
 
-        const token = jwt.sign(claims, credenciales_google.private_key, { algorithm:'RS256'});
-        const saveUrl = `https://pay.google.com/gp/v/save/${token}`;
+      // Subir la imagen
+      const result = await wallet.offerclass.insert({
+        issuerId: issuerId,
+        resource: {
+          classId: classId,
+          heroImage: {
+            kind: 'walletobjects#image',
+            sourceUri: {
+              uri: 'https://firebasestorage.googleapis.com/v0/b/guadalajara-17336.appspot.com/o/Multimedia%2F%2Fboleto.jpg?alt=media&token=c3588dae-a930-47b8-ac78-11f65ffddb44', // URL de la imagen
+              description: 'Description of image',
+            },
+          },
+        },
+      });
 
-        console.log('Save URL: ', saveUrl);
-
-        return saveUrl;
+      console.log('Image uploaded successfully:', result.data);
     } catch (error) {
-        throw new Error('Error al convertir a Wallet');
+      console.error('Error uploading image:', error.message);
     }
+  
+
 }
