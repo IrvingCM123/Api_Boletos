@@ -24,6 +24,7 @@ export async function enviarEmail(Data: any): Promise<string> {
 
       let imagen_boleto_path = await convert_Image(Datos);
 
+      console.log(Datos,"datosss1");
       let url_wallet = await convertToWallet(Datos);
 
       const html_template = email_template(Datos, imagen_boleto_path, url_wallet);
