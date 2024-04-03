@@ -1,8 +1,7 @@
 import { GoogleAuth } from "google-auth-library";
 import * as google_credencial from '../../../Archive/google-credentiales.json';
-import { generete_Class } from "./class.function";
 
-export async function generate_response(issuerId: any) {
+export async function generate_response(issuerId: any, genericClass: any) {
 
     let credenciales_google = google_credencial
 
@@ -16,21 +15,28 @@ export async function generate_response(issuerId: any) {
 
     let response;
 
-    let genericClass = generete_Class(classId);
-    
     try {
         response = await httpClient.request({
             url: `${baseUrl}/genericClass/${classId}`,
             method: 'GET'
         });
+
+        console.log('Class already exists');
+
     } catch (err) {
         if (err.response && err.response.status === 404) {
+            // Class does not exist
+            // Create it now
             response = await httpClient.request({
                 url: `${baseUrl}/genericClass`,
                 method: 'POST',
                 data: genericClass
             });
+
+            console.log('Class insert response');
+
         } else {
+            // Something else went wrong
             console.log(err);
             console.log('Something went wrong in class...check the console logs!');
         }

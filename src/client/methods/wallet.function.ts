@@ -7,8 +7,6 @@ export async function convertToWallet(Datos: any) {
     try {
         let adk = "flecha_1245";
         let tokenUser = `${Datos.Nombre_Usuario}+${Datos.Apellidos}+${Datos.Numero_Boleto}`;
-        
-
         let credenciales_google = google_credencial;
         const issuerId = '3388000000022323741';
         const classId = `${issuerId}.${adk}`;
@@ -299,7 +297,7 @@ export async function convertToWallet(Datos: any) {
           let objectId = `${issuerId}.${objectSuffix}`;
         
           let genericObject = {
-            'id': `${objectId}.${tokenUser}`,
+            'id': `${objectId}`,
             'classId': `${classId}`,
             'issuerName': 'Grupo Flecha Amarilla',
             'localizedIssuerName': {
@@ -359,7 +357,7 @@ export async function convertToWallet(Datos: any) {
             },
             'barcode': {
               'type': 'QR_CODE',
-              'value': `${Data}`
+              'value': `${Datos}`
             
             },
             'textModulesData': [
