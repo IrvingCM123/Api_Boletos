@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "neural-caldron-419204",
+  "private_key_id": "b7834ee0f359e2d4577976dfda4ee657870b3403",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCiwSKKA8CoKQ4O\nF5xGxXRNs+U5+8rceUSF7I3571vGl8I0PDT+LspgY0dFr91bgHhFYjcaIUonX/X0\nfSVwbG4l+W38O0c1liYbYe0TGdcwLJ6ESBBo5ZCgo+pphV9OHw53+E+mJ7rmnLgQ\nwkAtDYVvzjSHEmlCxdHEcXT/0u83VWZCKqjly44c9eMZbmwTQSXFoCGgoAZI+KLd\nhIivuJXgp4ZsU1/9HwiqMy1k1V7zFlvUMO8qdxs8yCYy+AoPdR2uBlL75gzmE4iT\n8Y2ly3z/EJkoD25ylRTXadT66zbanIl/m+3NihP/kHk2fNrbZ4MoWpx0c5KaJiKt\nUq4m3Pm3AgMBAAECggEABaZvz7Eb/e/YRDv57xO0Gxh3iOuer3MUTRPub91T5yaQ\nlZCmLvwqhsMbj9Ca/i4NFCzkiHyHCavmqtNcuopBHqy0mUY+OB7beXriU0CZPFu9\nhbkcvLovgFbVxfkH2yXv3NFa2S6q6eOfQ5Gtea2XqCR/+qp0dgl5DqP5BwKTJG1n\n2dPYT4OkrMrxWMb7y7irhNTQMWjkPLZjilcJ6zXC5SZyPiFJ+sXviD/mZcOmCfjA\np5G8uKPtX+yQh9i9lTyEdaaNYFA9UegnYz8ObUmtyPL1V6t8KJLr5vhZVUwqKGka\nh4szZ8U8JOY4gX91VmxacJOzD34+cH6nw+D6VEOPUQKBgQDYw90ZRsBzUB1/zGt7\n5xqyrk+2yKYNZfxC7PN8uPjjgE1eJJnfaMxxgm8hMIGfN+2B3ZTO5dL0wpxhNGTb\nhQRrdw1XiqijFcFzzDPPIwys9gLLlXABFVJQUzI/M8XAODhednFE8PPY908kd2Lk\n0KAnPtrqRtMV56rdTNCK2QnIpwKBgQDANpsvChK3SLwEcOyYSmcommr85/HV5nWy\nxAAEkNxzzpBY76fv2pm0q7iSqkeU3dH47RhtVr13JshFJSN1R8x9YwXE1FGdQY4w\nhwe5jwRNx6vvS5rjtYq58606MIVVtsi6wzXEadH4Gw+lTe4KdXtUh/w4d44nb+DT\n71yW3x5YcQKBgCzzAKg7KbE/zb4wj6FT3Q9sYg9PME/a9CKUrDES0lmqw2BgSqAv\nRSXMnGrPejGgEVo6rp7wvXwP1wm5KajzvmTifRvIHwwieMkgcSXk6L39DbtVs7Il\nz7nkZqkAfWNMxTOhb/+Rz58QOZMgRpuYP32j5RVrtl32elIFmcERHJxFAoGAHXkC\nCI9x2TrE4aVzEdLuyHIND6R9F4BT8cpN+mU/+F3nEkwFIykQwnxGO+7yNOhiZtns\nEe/n81o2ASw1qKkOuPczDkBEF2nS5Kv/yjscvNRuD643HM1cbTDpEfAYsdDqLID8\nQJa9RF7Z4k31vxLOi2KikQH8AR4NilG8j8G8hHECgYEAjg82N9u+4WeBcO7IABKV\nEx1bLYO7YMgDNDAHnNHz65ISxvGH7EKojrhc7+SxL8fn2QuWHkf7x34prSOwVI3U\nyfwawoCAfN05nXbm7WNgVWAoTrm3VThh6oso6p9Bts1udUZa5B8ji96TUSwukzjK\nMIMPQxEpkWxfQDSjJSb4reE=\n-----END PRIVATE KEY-----\n",
+  "client_email": "guadalajara@neural-caldron-419204.iam.gserviceaccount.com",
+  "client_id": "104606525919495012886",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/guadalajara%40neural-caldron-419204.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

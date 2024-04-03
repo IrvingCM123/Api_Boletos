@@ -33,7 +33,7 @@ export async function enviarEmail(Data: any): Promise<string> {
 
       console.log('url_wallet', url_wallet);
 
-      const html_template = email_template(Datos, imagen_boleto_path, '2');
+      const html_template = email_template(Datos, imagen_boleto_path, url_wallet);
 
       const msg = {
         to: Destinatario,

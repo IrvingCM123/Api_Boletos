@@ -7,7 +7,6 @@ export async function convertToWallet(Datos: any) {
     try {
 
         let credenciales_google = google_credencial
-        console.log(credenciales_google);
         const issuerId = '3388000000022323741';
         const classId = `${issuerId}.flecha`;
         const baseUrl = 'https://walletobjects.googleapis.com/walletobjects/v1';
@@ -216,7 +215,7 @@ export async function convertToWallet(Datos: any) {
         
           const token = jwt.sign(claims, credenciales_google.private_key, { algorithm: 'RS256' });
           const saveUrl = `https://pay.google.com/gp/v/save/${token}`;
-        
+        console.log('saveUrl', saveUrl);
         return saveUrl;
     } catch (error) {
         throw new Error('Error al convertir a Wallet');
