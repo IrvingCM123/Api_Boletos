@@ -65,7 +65,7 @@ export function email_template(Datos: any, url_imagen: string, url_wallet: strin
             <p>Por favor, haga clic en el siguiente enlace para descargar su boleto:  <a href="${url_imagen}" download="Boleto.jpg">Enlace de descarga</a></a></p>
           </div>
           <div class="download-link">
-            <p>Wallet  <a href="${ulr_wallet}" download="Boleto.jpg">Enlace de descarga</a></a></p>
+            <p>Wallet  <a href="${url_wallet}" download="Boleto.jpg">Enlace de descarga</a></a></p>
           </div>
           <div class="info">
             <p>Si tiene alguna pregunta o necesita asistencia adicional, no dude en ponerse en contacto con nosotros. ¡Estamos aquí para ayudarle!</p>
