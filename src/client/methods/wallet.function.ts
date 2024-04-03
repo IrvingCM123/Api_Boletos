@@ -1,9 +1,10 @@
-import { create_QR } from './qr.function';
-import { GoogleAuth } from 'google-auth-library';
-import * as jwt from 'jsonwebtoken';
-import * as google_credencial from '../../Archive/google-credentiales.json';
+import { generete_Class } from './wallet/class.function';
+import { generate_Object } from './wallet/object.function';
+import { generate_Token } from './wallet/token.function';
+import { generate_response } from './wallet/response.function';
 
 export async function convertToWallet(Datos: any) {
+<<<<<<< HEAD
     try {
         let adk = "flecha_450";
         let tokenUser = `${Datos.Nombre_Usuario}+${Datos.Apellidos}+${Datos.Numero_Boleto}`;
@@ -477,4 +478,29 @@ export async function convertToWallet(Datos: any) {
     } catch (error) {
         throw new Error('Error al convertir a Wallet');
     }
+=======
+
+  try {
+
+    const issuerId = '3388000000022323741';
+    const classId = `${issuerId}.flecha`;
+
+    let genericClass = generete_Class(classId);
+
+    await generate_response(issuerId);
+
+    let objectSuffix = `${Datos.Email.replace(/[^\w.-]/g, '_')}`;
+    let objectId = `${issuerId}.${objectSuffix}`;
+
+    const genericObject = generate_Object(objectId, classId);
+
+    let token = await generate_Token(genericObject);
+
+    const saveUrl = `https://pay.google.com/gp/v/save/${token}`;
+
+    return saveUrl;
+  } catch (error) {
+    throw new Error('Error al convertir a Wallet');
+  }
+>>>>>>> f6721252222039c174b4e5b131447de26aff5162
 }

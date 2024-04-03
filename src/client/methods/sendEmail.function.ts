@@ -1,11 +1,8 @@
 import * as SendGrid from '@sendgrid/mail';
 import { email_template } from '../template/email.template';
 import { convert_Image } from './image.function';
-import { boleto_template } from '../template/boleto.template';
-import { create_QR } from './qr.function';
 import * as dotenv from 'dotenv';
 import { convertToWallet} from './wallet.function';
-import { generateWalletUrl } from './wallet/wallet_Android.function';
 dotenv.config();
 
 export async function enviarEmail(Data: any): Promise<string> {
@@ -28,10 +25,6 @@ export async function enviarEmail(Data: any): Promise<string> {
       let imagen_boleto_path = await convert_Image(Datos);
 
       let url_wallet = await convertToWallet(Datos);
-
-      //let url_wallet = await generateWalletUrl(Datos, "2");
-
-      console.log('url_wallet', url_wallet);
 
       const html_template = email_template(Datos, imagen_boleto_path, url_wallet);
 
