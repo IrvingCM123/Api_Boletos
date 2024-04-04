@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 
 import { User_Interface } from 'src/common/interfaces/user.interface';
@@ -39,8 +38,12 @@ export class EventService {
     private usuarioRepository: Repository<Usuario>,
   ) {}
 
+  /**
+   * Creates a new event.
+   * @param data Data of the event to create.
+   * @param user Active user making the request.
+   */
   async create(data: any, user: User_Interface) {
-
     validateOwnershipAdmin(user);
 
     let licencia_conductor = data.licencia_conductor;
@@ -52,13 +55,18 @@ export class EventService {
 
       const boletos = await this.Buscar_Boletos(viaje);
 
-      //this.messagesService.sendNotification('token', createEventDto, user);
       return;
     } catch (error) {
       throw new Error(Errores_Incidentes.EVENT_NOT_CREATED);
     }
   }
 
+  /**
+   * Validates if the driver with the provided license exists.
+   * @param licencia_conductor Driver's license to validate.
+   * @returns Driver's ID if exists.
+   * @throws Error If the driver is not found.
+   */
   async ValidarConductor(licencia_conductor: string) {
     const conductor: any = await this.conductoresRepository.findOne({
       where: { Licencia: licencia_conductor },
@@ -73,6 +81,12 @@ export class EventService {
     return id_conductor;
   }
 
+  /**
+   * Finds the trip associated with the driver.
+   * @param conductor_ID Driver's ID.
+   * @returns Trip's ID.
+   * @throws Error If the trip is not found.
+   */
   async Buscar_Viaje(conductor_ID: any) {
     try {
       const viaje: any = await this.viajeRepository
@@ -93,17 +107,22 @@ export class EventService {
     }
   }
 
+  /**
+   * Finds the tickets associated with the trip.
+   * @param id_viaje Trip's ID.
+   * @returns Array of user's notification tokens.
+   * @throws Error If the tickets are not found.
+   */
   async Buscar_Boletos(id_viaje: number) {
     try {
-      
-      const boletos: any = await this.boletoRepository.
-      createQueryBuilder('boleto')
-      .leftJoinAndSelect('boleto.viajeID', 'viaje' )
-      .leftJoinAndSelect('boleto.id_usuario', 'usuario' )
-      .where('boleto.viajeID = :viajeID', {
-        viajeID: id_viaje,
-      })
-      .getMany();
+      const boletos: any = await this.boletoRepository
+        .createQueryBuilder('boleto')
+        .leftJoinAndSelect('boleto.viajeID', 'viaje')
+        .leftJoinAndSelect('boleto.id_usuario', 'usuario')
+        .where('boleto.viajeID = :viajeID', {
+          viajeID: id_viaje,
+        })
+        .getMany();
 
       if (!boletos) {
         throw new Error(Errores_Incidentes.EVENT_NOT_FOUND);
@@ -122,12 +141,20 @@ export class EventService {
     }
   }
 
-
+  /**
+   * Retrieves all events.
+   * @param user Active user making the request.
+   */
   findAll(user: User_Interface) {
     validateOwnershipAdmin(user);
     return this.eventRepository.find();
   }
 
+  /**
+   * Retrieves an event by its ID.
+   * @param id ID of the event to find.
+   * @param user Active user making the request.
+   */
   findOne(id: number, user: User_Interface) {
     validateOwnershipAdmin(user);
 
@@ -138,6 +165,12 @@ export class EventService {
     }
   }
 
+  /**
+   * Updates an existing event.
+   * @param id ID of the event to update.
+   * @param updateEventDto Updated data of the event.
+   * @param user Active user making the request.
+   */
   update(id: number, updateEventDto: UpdateEventDto, user: User_Interface) {
     validateOwnershipAdmin(user);
 
@@ -148,6 +181,11 @@ export class EventService {
     }
   }
 
+  /**
+   * Removes an existing event.
+   * @param id ID of the event to remove.
+   * @param user Active user making the request.
+   */
   remove(id: number, user: User_Interface) {
     validateOwnershipAdmin(user);
 

@@ -19,6 +19,11 @@ interface RequestWithUser extends Request {
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  /**
+   * Registers a new user.
+   * @param registerDto Data for user registration.
+   * @returns Information of the registered user.
+   */
   @Post('register')
   register(
     @Body()
@@ -27,6 +32,11 @@ export class AuthController {
     return this.authService.register(registerDto);
   }
 
+  /**
+   * Logs in an existing user.
+   * @param loginDto Data for user login.
+   * @returns Information of the logged-in session.
+   */
   @Post('login')
   login(
     @Body()
@@ -35,6 +45,11 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
+  /**
+   * Retrieves the profile of an authenticated user.
+   * @param user Authenticated user.
+   * @returns User profile information.
+   */
   @Get('profile')
   @Auth(Rol.USER)
   profile(@ActiveUser() user: User_Interface) {

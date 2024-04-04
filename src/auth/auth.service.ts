@@ -35,6 +35,11 @@ export class AuthService {
         private connection: Connection,
     ) { }
 
+      /**
+   * Registers a new user.
+   * @param registroDTO Data of the user to register.
+   * @returns Information of the registered user.
+   */
     async register(registroDTO: RegisterDto) {
         const { email, password, name, lastname, phone, address, token_notificacion } = registroDTO;
 
@@ -79,6 +84,11 @@ export class AuthService {
         }
     }
 
+      /**
+   * Logs in an existing user.
+   * @param loginDto Data of the user login.
+   * @returns Information of the logged-in session.
+   */
     async login(loginDto: LoginDto) {
         const { email, password } = loginDto;
 
@@ -106,6 +116,12 @@ export class AuthService {
         };
     }
 
+    /**
+   * Retrieves the profile of a user.
+   * @param email User's email.
+   * @param role User's role.
+   * @returns User's profile information.
+   */
     async profile({ email, role }: { email: string; role: string }) {
         return await this.cuentasService.findOneByEmail(email);
     }

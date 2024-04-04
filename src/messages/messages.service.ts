@@ -1,28 +1,24 @@
 import { Injectable } from '@nestjs/common';
-
 import { google } from 'googleapis';
-import { UnauthorizedException } from '@nestjs/common';
 import * as firebaseAdminConfig from '../Archive/firebase-admin.json';
-
 import axios from 'axios';
-
 import { User_Interface } from 'src/common/interfaces/user.interface';
-
-import { Rol } from 'src/common/enums/rol.enum';
-import { Errores_Roles } from 'src/common/helpers/Errores.service';
 import { Errores_Messages } from 'src/common/helpers/Errores.service';
 import { validateOwnershipAdmin } from 'src/Guard/validateOwnerShip.guard';
 
 @Injectable()
 export class MessagesService {
-
   private readonly MESSAGING_SCOPE =
     'https://www.googleapis.com/auth/firebase.messaging';
 
   private readonly SCOPES = [this.MESSAGING_SCOPE];
 
+  /**
+   * Obtains an access token for sending notifications.
+   * @param user User to validate access.
+   * @returns Access token.
+   */
   async getAccessToken(user: User_Interface): Promise<string> {
-
     validateOwnershipAdmin(user);
 
     const firebase_config = firebaseAdminConfig;
@@ -47,6 +43,13 @@ export class MessagesService {
     }
   }
 
+  /**
+   * Sends a notification to the specified devices.
+   * @param data Notification data.
+   * @param tokens Device tokens.
+   * @param user User to validate access.
+   * @returns Notification sending confirmation.
+   */
   async sendNotification(datos: any, tokens: any, user: User_Interface) {
     validateOwnershipAdmin(user);
 
@@ -74,7 +77,7 @@ export class MessagesService {
               android: {
                 notification: {
                   image:
-                    (datos.Imagen ) ??
+                    datos.Imagen ??
                     'https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png',
                 },
               },
@@ -86,7 +89,7 @@ export class MessagesService {
                 },
                 fcm_options: {
                   image:
-                    (datos.Imagen) ??
+                    datos.Imagen ??
                     'https://imagepng.org/wp-content/uploads/2019/08/google-icon-1.png',
                 },
               },
@@ -106,5 +109,4 @@ export class MessagesService {
       }
     }
   }
-  
 }
